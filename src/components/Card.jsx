@@ -7,7 +7,7 @@ const Card = ({
   description,
   features,
   footerTags,
-  detailedDesc
+  detailedDescription
 }) => {
 
   const [flipCard, setFlipCard] = useState(false)
@@ -62,7 +62,7 @@ const Card = ({
           <p className="text-sm text-gray-400">{subTitle}</p>
         </div>
         <div>
-          <p className="text-sm">{detailedDesc}</p>
+          <p className="text-sm">{detailedDescription}</p>
         </div>
 
       </div>

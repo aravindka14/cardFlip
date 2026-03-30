@@ -10,13 +10,14 @@ const Home = () => {
         {data.map((card) => (
           <Card
           key={card?.id}
-          title={card?.title}  
-          subTitle={card?.subtitle}  
-          tags={card?.tags}    
-          description={card?.description}
-          features={card?.features}   
-          footerTags={card?.footer} 
-          detailedDesc={card?.detailedDescription}
+          // title={card?.title}  
+          // subTitle={card?.subtitle}  
+          // tags={card?.tags}    
+          // description={card?.description}
+          // features={card?.features}   
+          // footerTags={card?.footer} 
+          // detailedDesc={card?.detailedDescription}
+          {...card}
         />
         ))
           }
