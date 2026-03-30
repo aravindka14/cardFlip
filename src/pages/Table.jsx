@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -10,6 +10,16 @@ import {
 const pageSize = [5, 10]
 
 const DataTable = ({ data = [] }) => {
+  const [dataSet, setDataSet] = useState([])
+  useEffect(() => {
+    if(data){
+      setDataSet(data)
+    }
+  },[data])
+
+  const handleDelete = (id) => {
+    setDataSet((prev) => prev.filter((item) => item.id !== id));
+  };
 
   const [search, setSearch] = useState("")
   const columns = [
@@ -29,10 +39,21 @@ const DataTable = ({ data = [] }) => {
       header: "Companey Name",
       accessorKey: "company.name",
     },
+    {
+    header: "delete",
+    cell: ({ row }) => (
+      <button
+        onClick={() => handleDelete(row.original.id)}
+        className="text-red-500"
+      >
+        Delete
+      </button>
+    ),
+  }
   ];
 
   const table = useReactTable({
-    data,
+    data: dataSet,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

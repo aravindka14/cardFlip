@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import {data} from "../constants/InfoData"
 import { useTableData } from "../queries/table/useTableData";
@@ -7,9 +7,13 @@ import DataTable from "./Table";
 const Home = () => {
   const {useGetTableData} = useTableData();
   const { data: tableData = [] } = useGetTableData();
-  console.log("datta",tableData);
+  const [dataSet, setDataSet] = useState(tableData?.data)
 
-  // const [search, setSearch] = useState("");
+  useEffect(() => {
+    if(tableData?.data){
+      setDataSet(tableData.data)
+    }
+  },[tableData])
   
 
   return (
@@ -33,7 +37,7 @@ const Home = () => {
       </div>
 
       <div className="my-10 p-8">
-       <DataTable data={tableData?.data}/>
+       <DataTable data={dataSet}/>
       </div>
     </>
   );
