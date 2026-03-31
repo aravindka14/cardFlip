@@ -7,23 +7,14 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 
-const pageSize = [5, 10]
-
-const Table = ({ data = [], columns, searchItem }) => {
-
+const Table = ({ data = [], columns, searchItem, page, setPage, totalPages }) => {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-    globalFilter: searchItem,
-  },
-    initialState: {
-      pagination: {
-        pageSize: 5, 
-      },
+      globalFilter: searchItem,
     },
   });
   return (
@@ -48,7 +39,7 @@ const Table = ({ data = [], columns, searchItem }) => {
             </tr>
           ))}
         </thead>
-  
+
         <tbody>
           {table.getRowModel()?.rows?.length === 0
             ? null
@@ -59,52 +50,41 @@ const Table = ({ data = [], columns, searchItem }) => {
                       key={cell.id}
                       className="border px-4 py-2 text-center align-middle text-sm"
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </td>
                   ))}
                 </tr>
               ))}
         </tbody>
       </table>
-        <div className="w-full flex items-center justify-between mt-9 gap-4">
-          <select
-            className="border p-1 rounded"
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => table.setPageSize(Number(e.target.value))}
+
+      
+      <div className="w-full flex items-center justify-between mt-9 gap-4">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setPage((prev) => prev - 1)}
+            disabled={page === 1}
+            className="px-3 py-1 border rounded disabled:opacity-50"
           >
-            {pageSize.map((size) => (
-              <option key={size} value={size}>
-                items per page {size}
-              </option>
-            ))}
-          </select>
-  
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Prev
-            </button>
-  
-            <span>
-              Page{" "}
-              <strong>
-                {table.getState().pagination.pageIndex + 1} of{" "}
-                {table.getPageCount()}
-              </strong>
-            </span>
-  
-            <button
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
+            Prev
+          </button>
+
+          <span>
+            Page <strong>{page}</strong> of <strong>{totalPages}</strong>
+          </span>
+
+          <button
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={page === totalPages}
+            className="px-3 py-1 border rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
+      </div>
     </>
   );
 };

@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { data } from "../constants/InfoData";
-import { useTableData } from "../queries/table/useTableData";
 import Table from "../components/Table";
+import { useGetUsers } from "../queries/users/useUserQueries";
+
+const total = 10;
 
 const Home = () => {
-  const { useGetTableData } = useTableData();
-  const { data: userList = [] } = useGetTableData();
-  const [dataSet, setDataSet] = useState(userList?.data);
+  const [page, setPage] = useState(1);
+  const { data: userList = [] } = useGetUsers({
+    page,
+    perPage: 5,
+  });
+  console.log("data set", userList);
+
+  const [dataSet, setDataSet] = useState(userList);
   const [search, setSearch] = useState("");
+  const totalPages = Math.ceil(total / 5);
 
   useEffect(() => {
-    if (userList?.data) {
-      setDataSet(userList.data);
+    if (userList?.length) {
+      setDataSet(userList);
     }
   }, [userList]);
 
@@ -79,7 +87,14 @@ const Home = () => {
             type="text"
           />
         </div>
-        <Table data={dataSet} columns={headers} searchItem={search} />
+        <Table
+          data={dataSet}
+          columns={headers}
+          searchItem={search}
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+        />
       </div>
     </>
   );
