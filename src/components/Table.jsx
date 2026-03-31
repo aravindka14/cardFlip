@@ -9,58 +9,16 @@ import {
 
 const pageSize = [5, 10]
 
-const DataTable = ({ data = [] }) => {
-  const [dataSet, setDataSet] = useState([])
-  useEffect(() => {
-    if(data){
-      setDataSet(data)
-    }
-  },[data])
-
-  const handleDelete = (id) => {
-    setDataSet((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const [search, setSearch] = useState("")
-  const columns = [
-    {
-      header: "Name",
-      accessorKey: "name",
-    },
-    {
-      header: "Email",
-      accessorKey: "email",
-    },
-    {
-      header: "Phone",
-      accessorKey: "phone",
-    },
-    {
-      header: "Companey Name",
-      accessorKey: "company.name",
-    },
-    {
-    header: "delete",
-    cell: ({ row }) => (
-      <button
-        onClick={() => handleDelete(row.original.id)}
-        className="text-red-500"
-      >
-        Delete
-      </button>
-    ),
-  }
-  ];
+const Table = ({ data = [], columns, searchItem }) => {
 
   const table = useReactTable({
-    data: dataSet,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onGlobalFilterChange: setSearch,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
-    globalFilter: search,
+    globalFilter: searchItem,
   },
     initialState: {
       pagination: {
@@ -70,9 +28,6 @@ const DataTable = ({ data = [] }) => {
   });
   return (
     <>
-    <div className="w-full flex justify-end">
-      <input placeholder="Search" value={search} onChange={(e)=> setSearch(e.target.value)} className="border m-3 px-3 py-1 w-50 rounded" type="text" />
-    </div>
       <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
         <thead className="bg-gray-100 ">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -154,4 +109,4 @@ const DataTable = ({ data = [] }) => {
   );
 };
 
-export default DataTable;
+export default Table;
