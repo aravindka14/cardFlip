@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { data } from "../constants/InfoData";
 import Table from "../components/Table";
 import { useGetUsers } from "../queries/users/useUserQueries";
+import { Outlet } from "react-router-dom";
 
 const total = 10;
 
@@ -60,7 +61,6 @@ const Home = () => {
 
   return (
     <>
-      <div className="h-40 w-full"></div>
       <div className="grid lg:grid-cols-3 place-items-center grid-cols-2 gap-8">
         {data.map((card) => (
           <Card
@@ -96,6 +96,14 @@ const Home = () => {
           totalPages={totalPages}
         />
       </div>
+
+      {/* <div className="flex h-screen overflow-hidden">
+        <div className="flex flex-col flex-grow">
+          <main className="flex-grow overflow-auto bg-[#FAFAFA]">
+            <Outlet />
+          </main>
+        </div>
+      </div> */}
     </>
   );
 };
