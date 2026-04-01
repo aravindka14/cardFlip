@@ -1,26 +1,30 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Table from "../components/Table";
+import userStore from "../store/UserStore";
 import { useGetUsers } from "../queries/users/useUserQueries";
 
 const total = 10;
 const Users = () => {
   const [page, setPage] = useState(1);
-  const { data: userList = [] } = useGetUsers({
+  const { data: data = [] } = useGetUsers({
     page,
     perPage: 5,
   });
-  console.log("data set", userList);
+  console.log("data set", data);
 
-  const [dataSet, setDataSet] = useState(userList);
   const [search, setSearch] = useState("");
   const totalPages = Math.ceil(total / 5);
 
+  const setUsers = userStore((state) => state.setUsers);
+  const userList = userStore((state) => state.users);
+  const deleteUser = userStore((state) => state.deleteUser);
+
   useEffect(() => {
-    if (userList?.length) {
-      setDataSet(userList);
+    if (data?.length) {
+      setUsers(data);
     }
-  }, [userList]);
+  }, [data]);
 
   const headers = [
     {
@@ -53,7 +57,7 @@ const Users = () => {
   ];
 
   const handleDelete = (id) => {
-    setDataSet((prev) => prev.filter((item) => item.id !== id));
+    deleteUser(id);
   };
   return (
     <div className="p-9">
@@ -67,7 +71,7 @@ const Users = () => {
         />
       </div>
       <Table
-        data={dataSet}
+        data={userList}
         columns={headers}
         searchItem={search}
         page={page}

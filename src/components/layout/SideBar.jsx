@@ -19,13 +19,11 @@ const SideBar = () => {
   ];
   return (
     <aside className="w-64 bg-white border border-gray-200 h-screen flex flex-col justify-between p-5">
-      {/* Logo */}
       <div>
         <div className="flex items-center justify-center mb-10">
           <img src={logo} className="w-24 object-contain" />
         </div>
 
-        {/* Menu */}
         <nav className="flex flex-col gap-2">
           {menuTabs.map((item, index) => {
             const isActive = currentPath === item.url;
@@ -40,10 +38,9 @@ const SideBar = () => {
                     : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 }`}
               >
-                {/* Optional Icon */}
                 {item.icon && <span className="text-lg">{item.icon}</span>}
 
-                <span>{item.name}</span>
+                <span>{`--> ${item.name}`}</span>
               </button>
             );
           })}

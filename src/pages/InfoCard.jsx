@@ -5,7 +5,7 @@ import Card from '../components/Card'
 const InfoCard = () => {
     
   return (
-      <div className="grid lg:grid-cols-3 place-items-center grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-3 place-items-center grid-cols-2 gap-8 p-9">
         {data.map((card) => (
           <Card
             key={card?.id}
