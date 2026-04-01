@@ -7,7 +7,14 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 
-const Table = ({ data = [], columns, searchItem, page, setPage, totalPages }) => {
+const Table = ({
+  data = [],
+  columns,
+  searchItem,
+  page,
+  setPage,
+  totalPages,
+}) => {
   const table = useReactTable({
     data,
     columns,
@@ -19,14 +26,14 @@ const Table = ({ data = [], columns, searchItem, page, setPage, totalPages }) =>
   });
   return (
     <>
-      <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
-        <thead className="bg-gray-100 ">
+      <table className="w-full border border-gray-200 rounded-xl overflow-hidden shadow-sm bg-white">
+        <thead className="bg-gray-50">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="border px-4 py-2 text-left text-sm font-semibold text-gray-700"
+                  className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"
                 >
                   {header.isPlaceholder
                     ? null
@@ -40,28 +47,33 @@ const Table = ({ data = [], columns, searchItem, page, setPage, totalPages }) =>
           ))}
         </thead>
 
-        <tbody>
-          {table.getRowModel()?.rows?.length === 0
-            ? null
-            : table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="hover:bg-gray-50 transition">
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="border px-4 py-2 text-center align-middle text-sm"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+        <tbody className="divide-y divide-gray-100">
+          {table.getRowModel()?.rows?.length === 0 ? (
+            <tr>
+              <td colSpan="100%" className="text-center py-10 text-gray-400">
+                No data available
+              </td>
+            </tr>
+          ) : (
+            table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className="hover:bg-gray-50 transition duration-150"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    className="px-6 py-4 text-sm text-gray-700 text-center"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
-      
       <div className="w-full flex items-center justify-between mt-9 gap-4">
         <div className="flex items-center gap-2">
           <button
