@@ -10,11 +10,11 @@ const SideBar = () => {
   const menuTabs = [
     {
       name: "Users List",
-      url: "/users",
+      url: "/home/users",
     },
     {
       name: "Info Card",
-      url: "/infoCard",
+      url: "/home/infoCard",
     },
   ];
   return (
@@ -26,7 +26,7 @@ const SideBar = () => {
 
         <nav className="flex flex-col gap-2">
           {menuTabs.map((item, index) => {
-            const isActive = currentPath === item.url;
+            const isActive = currentPath.startsWith(item.url);
 
             return (
               <button
@@ -40,7 +40,7 @@ const SideBar = () => {
               >
                 {item.icon && <span className="text-lg">{item.icon}</span>}
 
-                <span>{`--> ${item.name}`}</span>
+                <span>{`${item.name}`}</span>
               </button>
             );
           })}
