@@ -15,16 +15,16 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route
-              path="/"
-              element={ localStorage.getItem("user") ? (
-                  <Navigate to="/home" />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
-            />   
-          <Route path="/login" element={<Login />} />
-          
+            path="/login"
+            element={
+              localStorage.getItem("user") ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Login />
+              )
+            }
+          />   
+
           <Route element={<ProtectedRoute />}>
             <Route path="/home" element={<Home />}>
               <Route index element={<Navigate to="users" replace />} />             
