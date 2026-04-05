@@ -12,6 +12,7 @@ const login = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
 
@@ -28,7 +29,11 @@ const login = () => {
       sessionStorage.setItem("user", userName);
       navigate("/home");
     }else{
-      alert("Invalid username or password");
+      // alert("Invalid username or password");
+      setError("password",{
+        type: "manual",
+        message: "Invalid username or password"
+      })
     } 
   }
   return (
