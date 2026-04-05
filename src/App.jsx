@@ -17,7 +17,7 @@ function App() {
           <Route
             path="/login"
             element={
-              localStorage.getItem("user") ? (
+              sessionStorage.getItem("user") ? (
                 <Navigate to="/home" replace />
               ) : (
                 <Login />

@@ -6,7 +6,7 @@ const Card = ({
   tags,
   description,
   features,
-  footerTags,
+  footer,
   detailedDescription
 }) => {
 
@@ -48,7 +48,7 @@ const Card = ({
         <p className="text-xs text-gray-500 mb-3">USE WITH RAILWAY</p>
   
         <div className="flex gap-2 mb-4 flex-wrap">
-          {footerTags?.map((item, index) => (
+          {footer?.map((item, index) => (
             <div key={index} className="flex items-center px-3 py-1 text-xs rounded-md bg-gray-800">
             {item}
           </div>
