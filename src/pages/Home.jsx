@@ -9,7 +9,10 @@ const Home = () => {
         <SideBar />
         <div className="flex flex-col flex-grow">
           <TopBar />
-          <main className="flex-grow overflow-auto bg-[#FAFAFA]">
+          <main
+            id="scrollableDiv"
+            className="flex-grow overflow-auto bg-[#FAFAFA]"
+          >
             <Outlet />
           </main>
         </div>

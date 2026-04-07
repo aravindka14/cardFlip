@@ -16,6 +16,10 @@ const SideBar = () => {
       name: "Info Card",
       url: "/home/infoCard",
     },
+    {
+      name: "Gallery",  
+      url: "/home/gallery",
+    }
   ];
   return (
     <aside className="w-64 bg-white border border-gray-200 h-screen flex flex-col justify-between p-5">

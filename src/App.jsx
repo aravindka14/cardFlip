@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Users from "./pages/Users";
 import InfoCard from "./pages/InfoCard";
 import Login from "./pages/login";
+import Gallery from "./pages/Gallery";
 
 const queryClient = new QueryClient();
 function App() {
@@ -30,6 +31,7 @@ function App() {
               <Route index element={<Navigate to="users" replace />} />             
               <Route path="users" element={<Users />} />
               <Route path="infoCard" element={<InfoCard />} />
+              <Route path="gallery" element={<Gallery />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />
