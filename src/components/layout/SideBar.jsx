@@ -22,7 +22,7 @@ const SideBar = () => {
     }
   ];
   return (
-    <aside className="w-64 bg-white border border-gray-200 h-screen flex flex-col justify-between p-5">
+    <aside className="min-w-64 bg-white border border-gray-200 h-screen flex flex-col justify-between p-5">
       <div>
         <div className="flex items-center justify-center mb-10">
           <img src={logo} className="w-24 object-contain" />
