@@ -8,6 +8,7 @@ import Users from "./pages/Users";
 import InfoCard from "./pages/InfoCard";
 import Login from "./pages/login";
 import Gallery from "./pages/Gallery";
+import Calendar from "./pages/Calendar";
 
 const queryClient = new QueryClient();
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="infoCard" element={<InfoCard />} />
               <Route path="gallery" element={<Gallery />} />
+              <Route path="calendar" element={<Calendar/>} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />

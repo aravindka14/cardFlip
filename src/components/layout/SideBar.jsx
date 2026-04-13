@@ -19,6 +19,10 @@ const SideBar = () => {
     {
       name: "Gallery",  
       url: "/home/gallery",
+    },
+    {
+      name: "Calendar",
+      url: "/home/calendar",
     }
   ];
   return (
