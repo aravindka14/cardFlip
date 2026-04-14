@@ -27,7 +27,7 @@ const TopBar = () => {
   return (
     <header className='min-h-[88px] bg-white flex items-center justify-between border-b-[1px] border-gray-100'>
       <div >
-        <SplitText className='' text={`welcome `} />
+        {/* <SplitText className='' text={`welcome `} /> */}
       </div>
       <div className='mx-10 relative' ref={dropdownRef}>
         <div onClick={()=> setIsDropdownOpen((prev) => !prev) } className='border border-gray-300 shadow-md hover:bg-gray-100 transition-all duration-200 ease-in-out p-2 rounded-full'>

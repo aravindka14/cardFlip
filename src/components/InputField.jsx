@@ -3,7 +3,7 @@ import React from "react";
 const InputField = React.forwardRef(
   ({ label, type = "text", placeholder, value, error = "", ...rest }, ref) => {
     return (
-      <div className="w-full space-y-1.5">
+      <div className="w-full space-y-1.5 mt-5">
         {label && (
           <label className="text-sm font-medium text-gray-600 ms-1">
             {label}
@@ -16,7 +16,7 @@ const InputField = React.forwardRef(
             type={type}
             placeholder={placeholder}
             {...rest}
-            className={`w-full rounded-xl border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all 
+            className={`w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all 
               duration-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200`}
           />
         </div>

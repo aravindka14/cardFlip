@@ -21,10 +21,16 @@ const YearCalendar = ({ holidays = [] }) => {
     const currentDate = new Date(year, monthIndex);
 
     const monthStart = startOfMonth(currentDate);
+    // console.log("mot",monthStart);
+    
     const monthEnd = endOfMonth(monthStart);
 
     const startDate = startOfWeek(monthStart);
+    // console.log("startWeek",startDate);
+    
     const endDate = endOfWeek(monthEnd);
+    // console.log("end",endDate);
+    
 
     let day = startDate;
     const rows = [];
@@ -59,7 +65,7 @@ const YearCalendar = ({ holidays = [] }) => {
     }
 
     return (
-      <div className="border p-2 bg-white rounded shadow">
+      <div className="p-2 bg-white rounded shadow">
         <h3 className="text-center font-semibold mb-2">
           {format(currentDate, "MMMM")}
         </h3>
@@ -82,7 +88,6 @@ const YearCalendar = ({ holidays = [] }) => {
 
   return (
     <div className="w-full">
-      {/* Year Selector */}
       <div className="flex justify-center mb-4 gap-2">
         <button
           onClick={() => setYear(year - 1)}
@@ -101,7 +106,7 @@ const YearCalendar = ({ holidays = [] }) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">{months}</div>
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">{months}</div>
     </div>
   );
 };
