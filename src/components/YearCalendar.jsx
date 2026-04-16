@@ -9,12 +9,13 @@ import {
   isSameMonth,
 } from "date-fns";
 
-const YearCalendar = ({ holidays = [] }) => {
-  const [year, setYear] = useState(new Date().getFullYear());
-
+const YearCalendar = ({ holidays = [], year, setYear }) => {
+  // const [year, setYear] = useState(new Date().getFullYear());
+  // console.log("holiday list", holidays);
+  
   const holidayMap = {};
   holidays.forEach((h) => {
-    holidayMap[h.date] = h.name;
+    holidayMap[h.date] = h.holiday;
   });
 
   const renderMonth = (monthIndex) => {

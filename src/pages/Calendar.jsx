@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import YearCalendar from "../components/YearCalendar";
 import Popup from "../components/Base/Popup";
 import InputField from "../components/InputField";
 import { useForm } from "react-hook-form";
+import { convertToISO } from "../utils/helper";
+import useHolidayList from "../store/HolidayListStore";
 
 const Calendar = () => {
   const [isAddHolidayOpen, setIsAddHolidayOpen] = useState(false);
-  const [holidayList, setHolidayList] = useState([{date: "2026-08-15", holiday: "independence day"}]);
+  const [year, setYear] = useState(new Date().getFullYear());
+  // console.log("year", year);
+
+  const holidayList = useHolidayList((state) => state.holidayList);
+  const setHolidayList = useHolidayList((state) => state.setHolidayList)
+
+  const filteredHolidays = holidayList?.filter((list) =>
+    list?.date?.includes(year),
+  );
 
   const {
     register,
@@ -51,7 +61,7 @@ const Calendar = () => {
         </Popup>
       )}
       <div className="w-full flex">
-        <div className="p-3 w-74 bg-gray-100 rounded-lg">
+        <div className="p-3 w-74 bg-gray-100 rounded-lg mt-[60px]">
           <button
             onClick={() => setIsAddHolidayOpen(true)}
             className="w-full flex border bg-gray-800 rounded-lg justify-between px-2 py-1 text-lg text-white hover:bg-gray-700 hover:cursor-pointer transition-all duration-200 ease-in-out"
@@ -62,16 +72,42 @@ const Calendar = () => {
               <IoIosAddCircleOutline size={30} />
             </div>
           </button>
-          <div className="bg-white h-full rounded-lg p-3 mt-5">
-            {holidayList?.map((item, index) => (
-              <h1 key={index} className="text-md font-bold">
-                {item?.holiday}
-              </h1>
-            ))}
+          <div className="bg-white rounded-xl p-4 mt-5 shadow-md">
+            <h2 className="text-lg font-semibold mb-3 text-gray-700">
+              Upcoming Holidays
+            </h2>
+
+            <div className="space-y-3">
+              {filteredHolidays?.length > 0 ? (
+                filteredHolidays?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition rounded-lg px-4 py-3"
+                  >
+                    <div>
+                      <h3 className="text-md font-semibold text-gray-800">
+                        {item?.holiday}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {convertToISO(item?.date)}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition rounded-lg px-4 py-3">
+                  <div>
+                    <h3 className="text-md font-semibold text-gray-400">
+                      No holiday
+                    </h3>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex-1 p-3">
-          <YearCalendar />
+          <YearCalendar holidays={holidayList} year={year} setYear={setYear} />
         </div>
       </div>
     </>

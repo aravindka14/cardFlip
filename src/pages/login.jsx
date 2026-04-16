@@ -43,7 +43,7 @@ const login = () => {
           onSubmit={handleSubmit(handleLogin)}
           className="flex flex-col gap-4"
         >
-          <div className="flex flex-col gap-4 justify-center items-center w-[360px] mx-auto">
+          <div className="flex flex-col justify-center items-center w-[360px] mx-auto">
             <InputField
               type="text"
               label={"User Name"}
