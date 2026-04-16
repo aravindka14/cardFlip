@@ -1,4 +1,5 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import YearCalendar from "../components/YearCalendar";
 import Popup from "../components/Base/Popup";
@@ -13,7 +14,8 @@ const Calendar = () => {
   // console.log("year", year);
 
   const holidayList = useHolidayList((state) => state.holidayList);
-  const setHolidayList = useHolidayList((state) => state.setHolidayList)
+  const setHolidayList = useHolidayList((state) => state.setHolidayList);
+  const deleteHolidayList = useHolidayList((state) => state.deleteHolidayList);
 
   const filteredHolidays = holidayList?.filter((list) =>
     list?.date?.includes(year),
@@ -61,7 +63,7 @@ const Calendar = () => {
         </Popup>
       )}
       <div className="w-full flex">
-        <div className="p-3 w-74 bg-gray-100 rounded-lg mt-[60px]">
+        <div className="p-3 w-74 bg-gray-100 rounded-lg mt-[55px] ml-3">
           <button
             onClick={() => setIsAddHolidayOpen(true)}
             className="w-full flex border bg-gray-800 rounded-lg justify-between px-2 py-1 text-lg text-white hover:bg-gray-700 hover:cursor-pointer transition-all duration-200 ease-in-out"
@@ -91,6 +93,9 @@ const Calendar = () => {
                       <p className="text-sm text-gray-500">
                         {convertToISO(item?.date)}
                       </p>
+                    </div>
+                    <div onClick={()=> deleteHolidayList(item?.date)} className="text-gray-300 hover:text-red-400">
+                      <FaRegTrashCan />
                     </div>
                   </div>
                 ))
