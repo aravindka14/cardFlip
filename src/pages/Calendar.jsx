@@ -62,8 +62,8 @@ const Calendar = () => {
           </div>
         </Popup>
       )}
-      <div className="w-full flex">
-        <div className="p-3 w-74 bg-gray-100 rounded-lg mt-[55px] ml-3">
+      <div className="w-full flex grid lg:grid-cols-3 2xl:grid-cols-4">
+        <div className="p-3 bg-gray-100 rounded-lg mt-[55px] ml-3">
           <button
             onClick={() => setIsAddHolidayOpen(true)}
             className="w-full flex border bg-gray-800 rounded-lg justify-between px-2 py-1 text-lg text-white hover:bg-gray-700 hover:cursor-pointer transition-all duration-200 ease-in-out"
@@ -111,7 +111,7 @@ const Calendar = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 p-3">
+        <div className="flex-1 p-3 lg:col-span-2 2xl:col-span-3">
           <YearCalendar holidays={holidayList} year={year} setYear={setYear} />
         </div>
       </div>
