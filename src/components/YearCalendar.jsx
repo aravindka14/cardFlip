@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
+import { BiSolidRightArrow } from "react-icons/bi";
+import { BiSolidLeftArrow } from "react-icons/bi";
 import {
   format,
   startOfMonth,
@@ -52,7 +52,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
           <div className="relative group text-xs h-9 flex items-center justify-center">
             <div
               key={day}
-              className={`text-xs h-9 p-1 flex items-center justify-center
+              className={`text-xs h-9 p-1 flex items-center justify-center min-w-[35px]
                 ${!isSameMonth(day, monthStart) && "invisible"}
                 ${isHoliday && "bg-red-200 rounded-full px-3 cursor-pointer"}
                 ${
@@ -83,17 +83,16 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
 
     return (
       <div className="p-2 bg-white rounded shadow">
-        <h3 className="text-center font-semibold mb-4">
+        <h3 className="font-semibold mb-4 text-end px-4">
           {format(currentDate, "MMMM")}
         </h3>
 
-        <div className="grid grid-cols-7 text-xs text-center mb-1 font-semibold">
+        <div className="grid grid-cols-7 text-sm text-center mb-1 font-bold">
           {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
             <div key={d}>{d}</div>
           ))}
         </div>
         <div className="border-b border-gray-300 mb-1"></div>
-
         {rows}
       </div>
     );
@@ -111,17 +110,17 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
           onClick={() => setYear(year - 1)}
           className="px-3 py-1  rounded"
         >
-          <FaArrowLeft size={20} />
+          <BiSolidLeftArrow  />
         </button>
 
-        <h2 className="text-lg font-bold">{year}</h2>
+        <h2 className="text-3xl font-semibold">{year}</h2>
 
         <button onClick={() => setYear(year + 1)} className="px-3 py-1 rounded">
-          <FaArrowRight size={20} />
+          <BiSolidRightArrow  />
         </button>
       </div>
 
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
         {months}
       </div>
     </div>

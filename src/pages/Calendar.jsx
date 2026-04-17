@@ -62,7 +62,7 @@ const Calendar = () => {
           </div>
         </Popup>
       )}
-      <div className="w-full flex grid lg:grid-cols-3 2xl:grid-cols-4">
+      <div className="w-full grid lg:grid-cols-3 2xl:grid-cols-4">
         <div className="p-3 bg-gray-100 rounded-lg mt-[55px] ml-3">
           <button
             onClick={() => setIsAddHolidayOpen(true)}
@@ -111,7 +111,7 @@ const Calendar = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 p-3 lg:col-span-2 2xl:col-span-3">
+        <div className="p-3 lg:col-span-2 2xl:col-span-3">
           <YearCalendar holidays={holidayList} year={year} setYear={setYear} />
         </div>
       </div>
