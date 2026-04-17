@@ -50,6 +50,7 @@ const Calendar = () => {
             <InputField
               type="date"
               label="Date"
+              error={errors?.date?.message}
               {...register("date", { required: "Date is required" })}
             />
             <InputField
@@ -58,6 +59,14 @@ const Calendar = () => {
               placeholder="Enter holiday name"
               error={errors?.holiday?.message}
               {...register("holiday", { required: "Holiday is required" })}
+            />
+
+            <InputField
+              type="dropdown"
+              label="Holiday Type"
+              placeholder="Select holiday type"
+              error={errors?.holidayType?.message}
+              {...register("holidayType", { required: "Holiday type is required" })}
             />
           </div>
         </Popup>
