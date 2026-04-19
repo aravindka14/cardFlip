@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useHolidayList = create((set) => ({
-  holidayList: [{ date: "2026-08-15", holiday: "Independence day" },],
+  holidayList: [{ date: "2026-08-15", holiday: "Independence day", color: "bg-red-400" },],
 
   setHolidayList: (data) => set({ holidayList: data }),
   deleteHolidayList: (date) =>

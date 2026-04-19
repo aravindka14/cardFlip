@@ -8,6 +8,12 @@ import { useForm } from "react-hook-form";
 import { convertToISO } from "../utils/helper";
 import useHolidayList from "../store/HolidayListStore";
 
+const holidayTypeOptions = [
+  { label: "Public Holiday", value: "1", color: "bg-red-400" },
+  { label: "Optional Holiday", value: "2", color: "bg-yellow-500" },
+  { label: "Religious Holiday", value: "3", color: "bg-green-500"}
+]
+
 const Calendar = () => {
   const [isAddHolidayOpen, setIsAddHolidayOpen] = useState(false);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -25,12 +31,21 @@ const Calendar = () => {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
   const handleHoliday = (data) => {
+    const selectedType = holidayTypeOptions.find(
+      (opt) => opt.value === data.holidayType
+    );
+    const newHoliday = {
+      ...data,
+      color: selectedType?.color,   
+    };
     console.log(data);
-    setHolidayList([...holidayList, data]);
+    setHolidayList([...holidayList, newHoliday]);
     setIsAddHolidayOpen(false);
     reset();
   };
@@ -66,7 +81,9 @@ const Calendar = () => {
               label="Holiday Type"
               placeholder="Select holiday type"
               error={errors?.holidayType?.message}
-              {...register("holidayType", { required: "Holiday type is required" })}
+              value={watch("holidayType")}
+              onChange={(val) => setValue("holidayType", val)}
+              options={holidayTypeOptions}
             />
           </div>
         </Popup>

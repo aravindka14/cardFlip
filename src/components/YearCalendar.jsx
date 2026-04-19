@@ -16,11 +16,11 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
   const formattedPresentDate = format(presentDate, "yyyy-MM-dd");
   console.log("present date", presentDate);
 
-  // console.log("holiday list", holidays);
+  console.log("holiday list", holidays);
 
   const holidayMap = {};
   holidays.forEach((h) => {
-    holidayMap[h.date] = h.holiday;
+    holidayMap[h.date] = h;
   });
 
   const renderMonth = (monthIndex) => {
@@ -46,7 +46,8 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
 
       for (let i = 0; i < 7; i++) {
         const formattedDate = format(day, "yyyy-MM-dd");
-        const isHoliday = holidayMap[formattedDate];
+        const holiday = holidayMap[formattedDate];
+        const isHoliday = !!holiday;
 
         days.push(
           <div className="relative group text-xs h-9 flex items-center justify-center">
@@ -54,7 +55,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
               key={day}
               className={`text-xs h-9 p-1 flex items-center justify-center min-w-[35px]
                 ${!isSameMonth(day, monthStart) && "invisible"}
-                ${isHoliday && "bg-red-200 rounded-full px-3 cursor-pointer"}
+                ${isHoliday && `${holiday.color} rounded-full px-3 cursor-pointer`}
                 ${
                   format(day, "yyyy-MM-dd") === formattedPresentDate &&
                   "bg-blue-200 rounded-full px-3 cursor-pointer"
@@ -65,7 +66,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
             </div>
             {isHoliday && (
               <div className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-sm px-2 py-1 rounded whitespace-nowrap z-50">
-                {isHoliday}
+                {holiday.holiday}
               </div>
             )}
           </div>,
