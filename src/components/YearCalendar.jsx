@@ -65,8 +65,14 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
               {format(day, "d")}
             </div>
             {isHoliday && (
-              <div className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-sm px-2 py-1 rounded whitespace-nowrap z-50">
-                {holiday.holiday}
+              <div
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition duration-200 bg-black text-white px-3 py-2 rounded-md text-sm whitespace-nowrap
+                z-50 shadow-lg pointer-events-none"
+              >
+                <div>{holiday?.holiday}</div>
+                <div className="text-gray-300 text-xs">
+                  {holiday?.holidayType}
+                </div>
               </div>
             )}
           </div>,
@@ -111,13 +117,13 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
           onClick={() => setYear(year - 1)}
           className="px-3 py-1  rounded"
         >
-          <BiSolidLeftArrow  />
+          <BiSolidLeftArrow />
         </button>
 
         <h2 className="text-3xl font-semibold">{year}</h2>
 
         <button onClick={() => setYear(year + 1)} className="px-3 py-1 rounded">
-          <BiSolidRightArrow  />
+          <BiSolidRightArrow />
         </button>
       </div>
 

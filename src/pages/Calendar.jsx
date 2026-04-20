@@ -9,9 +9,9 @@ import { convertToISO } from "../utils/helper";
 import useHolidayList from "../store/HolidayListStore";
 
 const holidayTypeOptions = [
-  { label: "Public Holiday", value: "1", color: "bg-red-400" },
-  { label: "Optional Holiday", value: "2", color: "bg-yellow-500" },
-  { label: "Religious Holiday", value: "3", color: "bg-green-500"}
+  { label: "Public Holiday", value: "1", color: "bg-red-300" },
+  { label: "Optional Holiday", value: "2", color: "bg-yellow-300" },
+  { label: "Religious Holiday", value: "3", color: "bg-green-300"}
 ]
 
 const Calendar = () => {
@@ -42,7 +42,8 @@ const Calendar = () => {
     );
     const newHoliday = {
       ...data,
-      color: selectedType?.color,   
+      color: selectedType?.color,
+      holidayType: selectedType?.label,   
     };
     console.log(data);
     setHolidayList([...holidayList, newHoliday]);
