@@ -23,6 +23,10 @@ const SideBar = () => {
     {
       name: "Calendar",
       url: "/home/calendar",
+    },
+    {
+      name: "Wold Map",
+      url: "/home/worldMap",
     }
   ];
   return (

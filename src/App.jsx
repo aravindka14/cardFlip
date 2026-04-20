@@ -9,6 +9,7 @@ import InfoCard from "./pages/InfoCard";
 import Login from "./pages/login";
 import Gallery from "./pages/Gallery";
 import Calendar from "./pages/Calendar";
+import WorldMap from "./pages/WorldMap";
 
 const queryClient = new QueryClient();
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path="infoCard" element={<InfoCard />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="calendar" element={<Calendar/>} />
+              <Route path="worldMap" element={<WorldMap/>} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />
