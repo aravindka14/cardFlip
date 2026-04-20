@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaUser } from "react-icons/fa6";
-import SplitText from "../Split-Text";
 
 const TopBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -23,7 +22,7 @@ const TopBar = () => {
   };
 
   return (
-    <header className="min-h-[88px] bg-white flex items-center justify-between border-b-[1px] border-gray-100">
+    <header className="min-h-[88px] bg-white flex items-center justify-end border-b-[1px] border-gray-100">
       <div className="mx-10 relative" ref={dropdownRef}>
         <div
           onClick={() => setIsDropdownOpen((prev) => !prev)}
