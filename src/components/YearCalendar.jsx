@@ -50,7 +50,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
         const isHoliday = !!holiday;
 
         days.push(
-          <div className="relative group text-xs h-9 flex items-center justify-center">
+          <div key={day} className="relative group text-xs h-9 flex items-center justify-center">
             <div
               key={day}
               className={`text-xs h-9 p-1 flex items-center justify-center min-w-[35px]
@@ -89,14 +89,14 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
     }
 
     return (
-      <div className="p-2 bg-white rounded shadow">
+      <div key={day} className="p-2 bg-white rounded shadow">
         <h3 className="font-semibold mb-4 text-end px-4">
           {format(currentDate, "MMMM")}
         </h3>
 
         <div className="grid grid-cols-7 text-sm text-center mb-1 font-bold">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
-            <div key={d}>{d}</div>
+          {["S", "M", "T", "W", "T", "F", "S"].map((d, index) => (
+            <div key={index}>{d}</div>
           ))}
         </div>
         <div className="border-b border-gray-300 mb-1"></div>
