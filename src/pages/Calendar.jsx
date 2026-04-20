@@ -81,7 +81,6 @@ const Calendar = () => {
               type="dropdown"
               label="Holiday Type"
               placeholder="Select holiday type"
-              error={errors?.holidayType?.message}
               value={watch("holidayType")}
               onChange={(val) => setValue("holidayType", val)}
               options={holidayTypeOptions}

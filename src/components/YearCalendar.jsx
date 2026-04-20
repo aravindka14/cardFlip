@@ -25,18 +25,14 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
 
   const renderMonth = (monthIndex) => {
     const currentDate = new Date(year, monthIndex);
-    // console.log("currentDate",currentDate);
 
     const monthStart = startOfMonth(currentDate);
-    // console.log("mot",monthStart);
 
     const monthEnd = endOfMonth(monthStart);
 
     const startDate = startOfWeek(monthStart);
-    // console.log("startWeek",startDate);
 
     const endDate = endOfWeek(monthEnd);
-    // console.log("end",endDate);
 
     let day = startDate;
     const rows = [];

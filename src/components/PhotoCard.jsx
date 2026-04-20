@@ -11,8 +11,6 @@ const PhotoCard = ({ title, url }) => {
         src="https://placehold.co/600x400/000000/FFF"
         alt={title}
         onError={(e) => {
-          console.log(e, ";;;;;;;;;;;");
-
           e.preventDefault();
           e.target.src =
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGZjYKPjVrCS_uKmuUXIkYNXPA3x0q_Y-hYQ&s";
