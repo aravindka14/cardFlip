@@ -27,7 +27,7 @@ const WorldMaps = () => {
   };
 };
   return (
-    <div className="w-full flex items-center justify-center rounded-lg bg-white overflow-hidden">
+    <div className="w-full h-full flex items-center justify-center rounded-lg bg-white overflow-hidden">
       <TransformWrapper
         initialScale={1}
         minScale={1}
@@ -36,16 +36,14 @@ const WorldMaps = () => {
       >
         <TransformComponent>
           <WorldMap
-            size={1070}
+            size={1590}
             color="blue"
             data={data}
-            // richInteraction={true}
-            // backgroundColor={"#ffffff"}
-            // borderColor={"#ffffff"}
             color={"#060808"}
             tooltipBgColor={"#020205"}
             frameColor={"#ffffff"}
-            // zoom={}
+            tooltipBgColor={"white"}
+            tooltipTextColor={"black"}
             styleFunction={stylingFunction}
           />
         </TransformComponent>
