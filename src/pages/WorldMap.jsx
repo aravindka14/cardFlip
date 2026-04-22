@@ -1,31 +1,65 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import WorldMap from "react-svg-worldmap";
 
 const WorldMaps = () => {
   const data = [
-    { country: "IN", value: 100 },
-    { country: "US", value: 200 },
-    { country: "BR", value: 50 },
+    {
+      country: "IN",
+      value: 100,
+      gdp: 3.7,
+      population: 1428,
+      gdpPerCapita: 2600,
+    },
+    {
+      country: "US",
+      value: 200,
+      gdp: 28.0,
+      population: 335,
+      gdpPerCapita: 83000,
+    },
+    {
+      country: "BR",
+      value: 50,
+      gdp: 2.2,
+      population: 203,
+      gdpPerCapita: 10800,
+    },
   ];
 
- const stylingFunction = (context) => {
-  const value = context.countryValue || 0;
+  useEffect(() => {
+    const removeTitle = () => {
+      document.querySelectorAll("svg path title").forEach((el) => {
+        el.remove(); 
+      });
+    };
+    removeTitle();
+    const observer = new MutationObserver(removeTitle);
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
 
-  // simple gradient logic
-  let fillColor = "#d4d4d4"; // default (gray)
+  const stylingFunction = (context) => {
+    const value = context.countryValue || 0;
+    let fillColor = "#d4d4d4";
+    if (value) {
+      fillColor = "#242424";
+    }
+    // if (value > 150)
+    //   fillColor = "#000000";
+    // else if (value > 100)
+    //   fillColor = "#292929";
+    // else if (value > 50) fillColor = "#242424";
 
-  if (value > 150) fillColor = "#000000";     // dark blue
-  else if (value > 100) fillColor = "#292929"; // medium blue
-  else if (value > 50) fillColor = "#242424";  // light blue
-
-  return {
-    fill: fillColor,
-    stroke: "#524949",
-    strokeWidth: 0.5,
-    cursor: "pointer",
+    return {
+      fill: fillColor,
+      stroke: "#524949",
+      strokeWidth: 0.5,
+      cursor: "pointer",
+      opacity: 1,
+      outline: "none",
+    };
   };
-};
   return (
     <div className="w-full h-full flex items-center justify-center rounded-lg bg-white overflow-hidden">
       <TransformWrapper
@@ -36,7 +70,7 @@ const WorldMaps = () => {
       >
         <TransformComponent>
           <WorldMap
-            size={1590}
+            size={1490}
             color="blue"
             data={data}
             color={"#060808"}
@@ -45,6 +79,20 @@ const WorldMaps = () => {
             tooltipBgColor={"white"}
             tooltipTextColor={"black"}
             styleFunction={stylingFunction}
+            tooltipTextFunction={(context) => {
+              const countryData = data.find(
+                (item) => item.country === context.countryCode,
+              );
+              if (!countryData) {
+                return `${context.countryCode} - ${context.countryName}`;
+              }
+              return `
+                ${context.countryName}
+                GDP: $${countryData.gdp}T
+                Population: ${countryData.population}M
+                GDP per Capita: $${countryData.gdpPerCapita}
+              `;
+            }}
           />
         </TransformComponent>
       </TransformWrapper>
