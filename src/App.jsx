@@ -21,7 +21,7 @@ function App() {
             path="/login"
             element={
               sessionStorage.getItem("user") ? (
-                <Navigate to="/home" replace />
+                <Navigate to="/" replace />
               ) : (
                 <Login />
               )
@@ -29,7 +29,7 @@ function App() {
           />   
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/home" element={<Home />}>
+            <Route path="/" element={<Home />}>
               <Route index element={<Navigate to="users" replace />} />             
               <Route path="users" element={<Users />} />
               <Route path="infoCard" element={<InfoCard />} />

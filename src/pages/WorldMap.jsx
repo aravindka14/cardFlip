@@ -61,7 +61,8 @@ const WorldMaps = () => {
     };
   };
   return (
-    <div className="w-full h-full flex items-center justify-center rounded-lg bg-white overflow-hidden">
+    <div className="relative w-full h-full flex items-center justify-center rounded-lg bg-white overflow-hidden">
+      <div className="absolute bottom-0 left-1 text-gray-400 m-2 z-100">scroll to zoom</div>
       <TransformWrapper
         initialScale={1}
         minScale={1}
@@ -70,7 +71,7 @@ const WorldMaps = () => {
       >
         <TransformComponent>
           <WorldMap
-            size={1490}
+            size={1290}
             color="blue"
             data={data}
             color={"#060808"}
@@ -96,6 +97,7 @@ const WorldMaps = () => {
           />
         </TransformComponent>
       </TransformWrapper>
+      
     </div>
   );
 };
