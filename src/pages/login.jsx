@@ -25,7 +25,7 @@ const login = () => {
     // }
     if (password === "123" && userName === "ara") {
       sessionStorage.setItem("user", userName);
-      navigate("/home");
+      navigate("/");
     } else {
       // alert("Invalid username or password");
       setError("password", {

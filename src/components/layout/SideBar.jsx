@@ -10,19 +10,23 @@ const SideBar = () => {
   const menuTabs = [
     {
       name: "Users List",
-      url: "/home/users",
+      url: "/users",
     },
     {
       name: "Info Card",
-      url: "/home/infoCard",
+      url: "/infoCard",
     },
     {
       name: "Gallery",  
-      url: "/home/gallery",
+      url: "/gallery",
     },
     {
       name: "Calendar",
-      url: "/home/calendar",
+      url: "/calendar",
+    },
+    {
+      name: "Wold Map",
+      url: "/worldMap",
     }
   ];
   return (
