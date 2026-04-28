@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "../components/InputField";
+import InputField from "../components/Base/InputField";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 

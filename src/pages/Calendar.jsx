@@ -3,7 +3,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import YearCalendar from "../components/YearCalendar";
 import Popup from "../components/Base/Popup";
-import InputField from "../components/InputField";
+import InputField from "../components/Base/InputField";
 import { useForm } from "react-hook-form";
 import { convertToISO } from "../utils/helper";
 import useHolidayList from "../store/HolidayListStore";
