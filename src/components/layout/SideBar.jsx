@@ -27,6 +27,10 @@ const SideBar = () => {
     {
       name: "Wold Map",
       url: "/worldMap",
+    },
+    {
+      name: "Documents",
+      url: "/documents",
     }
   ];
   return (

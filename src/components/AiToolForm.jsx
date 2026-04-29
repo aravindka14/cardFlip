@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "./Base/InputField";
+import InputField from "./Base/inputField/InputField";
 import { aiToolsFormFields } from "../constants/aiToolFormData";
 import { useForm } from "react-hook-form";
 

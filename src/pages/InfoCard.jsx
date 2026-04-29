@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FlipCard from "../components/flip-card";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useGetAiTools } from "../queries/aiTools/useAiToolsQueries";
-import Popup from "../components/Base/Popup";
+import Popup from "../components/Base/pop-up/Popup";
 import AiToolForm from "../components/AiToolForm";
 
 const InfoCard = () => {
