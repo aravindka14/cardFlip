@@ -4,7 +4,7 @@ import FontIcon from "../icons/FontIcon";
 
 const InputField = React.forwardRef(
   (
-    { 
+    {
       name,
       label,
       type = "text",
@@ -14,16 +14,17 @@ const InputField = React.forwardRef(
       options = [],
       disabled = false,
       onChange,
+      onRemoveFile,
+      selectedFile,
+      previewFile,
       ...rest
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
     const selected = options.find((opt) => opt.value === value);
 
-    const onButtonClick = () => {
-      ref.current.click();
-    };
     return (
       <div className="w-full space-y-1.5 mt-5">
         {label && (
@@ -102,8 +103,7 @@ const InputField = React.forwardRef(
                       onClick={() => document.getElementById(name).click()}
                     >
                       Click to upload
-                    </button>{" "}
-                    or drag and drop
+                    </button>
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
                     SVG, PNG, JPG or GIF (max. 10MB)
@@ -111,21 +111,53 @@ const InputField = React.forwardRef(
                 </div>
               </div>
               <div className="mt-3 space-y-2">
-                <div className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="p-2 bg-indigo-50 rounded-lg shrink-0">
-                      <FontIcon iconName={"file"} color="#6366f1" size="24px"/>
+                {selectedFile &&
+                  selectedFile.length > 0 &&
+                  Array.from(selectedFile).map((file, index) => (
+                    <div
+                      onClick={() => {
+                        previewFile(index);
+                        setActiveIndex(index);
+                      }}
+                      key={index}
+                      className={`flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm
+                        ${activeIndex === index ? "border-indigo-600 shadow-md" : "border-gray-200"}`}
+                    >
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div
+                          className={`p-2 rounded-lg shrink-0 ${
+                            activeIndex === index
+                              ? "bg-[#6366f1]"
+                              : "bg-[#eef2ff]"
+                          }`}
+                        >
+                          <FontIcon
+                            iconName={"file"}
+                            color={activeIndex === index ? "#eef2ff" : "#6366f1"}
+                            size="24px"
+                          />
+                        </div>
+
+                        <div className="truncate">
+                          <p className="text-sm font-medium text-gray-700 truncate">
+                            {file.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {file.size / 1024 / 1024 < 1
+                              ? (file.size / 1024).toFixed(2) + " KB"
+                              : (file.size / (1024 * 1024)).toFixed(2) + " MB"}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveFile(index)}
+                        className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors focus:outline-none"
+                      >
+                        <FontIcon iconName={"trash"} color="red" size="15" />
+                      </button>
                     </div>
-                    <div className="truncate">
-                      <p className="text-sm font-medium text-gray-700 truncate">
-                        ddfiuw gtcxuyt ig
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        200 MB
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  ))}
               </div>
             </>
           ) : (
