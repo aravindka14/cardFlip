@@ -4,42 +4,28 @@ import InputField from "../components/Base/inputField/InputField";
 const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrl, setPreviewUrl] = useState([]);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const selectFile = (e) => {
-    const files = Array.from(e.target.files);
-    const urls = files.map((file) => URL.createObjectURL(file));
-    setPreviewUrl((prev) => {
-      const newUrls = [...prev, ...urls];
-      if (prev.length === 0 && newUrls.length > 0) {
-        setSelectedImage(newUrls[0]);
-        setSelectedIndex(0);
-      }
-      return newUrls;
-    });
-    setSelectedFiles((prev) => [...prev, ...files]);
-    e.target.value = null;
-  };
+const selectFile = (e) => {
+  const files = Array.from(e.target.files);
+  const urls = files.map((file) => URL.createObjectURL(file));
+  setPreviewUrl((prev) => [...prev, ...urls]);
+  setSelectedFiles((prev) => [...prev, ...files]);
+  setSelectedIndex((prev) => prev === -1 ? 0 : prev);
+  e.target.value = null;
+};
 
-  const removeFile = (index) => {
-    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
-    setPreviewUrl((prev) => {
-      const updated = prev.filter((_, i) => i !== index);
-      if (selectedIndex === index) {
-        setSelectedImage(updated[0] || "");
-        setSelectedIndex(updated.length > 0 ? 0 : -1);
-      } else if (selectedIndex > index) {
-        setSelectedIndex(selectedIndex - 1);
-      }
-      return updated;
-    });
-  };
+const removeFile = (index) => {
+  setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  setPreviewUrl((prev) => prev.filter((_, i) => i !== index));
+  setSelectedIndex((prev) => {
+    if (prev === index) return previewUrl.length > 1 ? 0 : -1;
+    if (prev > index) return prev - 1;
+    return prev;
+  });
+};
 
-  const previewFile = (index) => {
-    setSelectedIndex(index);
-    setSelectedImage(previewUrl[index]);
-  };
+const previewFile = (index) => setSelectedIndex(index); 
 
   return (
     <div className="grid grid-cols-3 gap-4 p-6">
@@ -54,9 +40,9 @@ const Documents = () => {
         selectedIndex={selectedIndex}
       />
       <div className="col-span-2 border border-gray-200 rounded-lg h-[calc(100vh-136px)] bg-gray-100 p-4 flex items-center justify-center">
-        {selectedImage && (
+        {previewUrl[selectedIndex] && (
           <img
-            src={selectedImage}
+            src={previewUrl[selectedIndex]}
             alt="preview"
             className={`w-full h-full object-contain rounded-lg shadow-sm border border-gray-200`}
           />
