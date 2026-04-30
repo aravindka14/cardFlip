@@ -11,7 +11,8 @@ const selectFile = (e) => {
   const urls = files.map((file) => URL.createObjectURL(file));
   setPreviewUrl((prev) => [...prev, ...urls]);
   setSelectedFiles((prev) => [...prev, ...files]);
-  setSelectedIndex((prev) => prev === -1 ? 0 : prev);
+  const length = previewUrl.length;
+  setSelectedIndex(length);
   e.target.value = null;
 };
 
