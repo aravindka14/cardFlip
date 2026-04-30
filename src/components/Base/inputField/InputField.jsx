@@ -17,12 +17,12 @@ const InputField = React.forwardRef(
       onRemoveFile,
       selectedFile,
       previewFile,
+      selectedIndex,
       ...rest
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(0);
     const selected = options.find((opt) => opt.value === value);
 
     return (
@@ -117,23 +117,24 @@ const InputField = React.forwardRef(
                     <div
                       onClick={() => {
                         previewFile(index);
-                        setActiveIndex(index);
                       }}
                       key={index}
                       className={`flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm
-                        ${activeIndex === index ? "border-indigo-600 shadow-md" : "border-gray-200"}`}
+                        ${selectedIndex === index ? "border-indigo-600 shadow-md" : "border-gray-200"}`}
                     >
                       <div className="flex items-center gap-3 overflow-hidden">
                         <div
                           className={`p-2 rounded-lg shrink-0 ${
-                            activeIndex === index
+                            selectedIndex === index
                               ? "bg-[#6366f1]"
                               : "bg-[#eef2ff]"
                           }`}
                         >
                           <FontIcon
                             iconName={"file"}
-                            color={activeIndex === index ? "#eef2ff" : "#6366f1"}
+                            color={
+                              selectedIndex === index ? "#eef2ff" : "#6366f1"
+                            }
                             size="24px"
                           />
                         </div>
@@ -151,7 +152,10 @@ const InputField = React.forwardRef(
                       </div>
                       <button
                         type="button"
-                        onClick={() => onRemoveFile(index)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRemoveFile(index);
+                        }}
                         className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors focus:outline-none"
                       >
                         <FontIcon iconName={"trash"} color="red" size="15" />
@@ -162,6 +166,7 @@ const InputField = React.forwardRef(
             </>
           ) : (
             <input
+              name={name}
               ref={ref}
               type={type}
               placeholder={placeholder}
