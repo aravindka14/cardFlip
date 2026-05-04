@@ -69,12 +69,16 @@ const previewFile = (index) => setSelectedIndex(index);
         accept=".png,.jpg,.jpeg,.svg,.gif"
       />
       <div className="col-span-2 border border-gray-200 rounded-lg h-[calc(100vh-136px)] bg-gray-100 p-4 flex items-center justify-center">
-        {previewUrl[selectedIndex] && (
+        {previewUrl[selectedIndex] ? (
           <img
             src={previewUrl[selectedIndex]}
             alt="preview"
             className={`w-full h-full object-contain rounded-lg shadow-sm border border-gray-200`}
           />
+        ) : (
+          <div className="text-gray-400 text-sm">
+            No Preview
+          </div>
         )}
       </div>
     </div>
