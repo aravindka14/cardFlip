@@ -8,11 +8,38 @@ const Documents = () => {
 
 const selectFile = (e) => {
   const files = Array.from(e.target.files);
+  const allowedTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/svg+xml",
+    "image/gif",
+  ];
+  const maxSize = 10 * 1024 * 1024; 
+  const validFiles = [];
+  const invalidFiles = [];
+  files.forEach((file) => {
+    const isValidType = allowedTypes.includes(file.type);
+    const isValidSize = file.size <= maxSize;
+
+    if (isValidType && isValidSize) {
+      validFiles.push(file);
+    } else {
+      invalidFiles.push(file);
+    }
+  });
+  if (invalidFiles.length > 0) {
+    alert("Only PNG, JPG, JPEG, SVG, GIF files under 10MB are allowed.");
+  }
+  if (validFiles.length === 0) {
+    e.target.value = null;
+    return;
+  }
+
   const urls = files.map((file) => URL.createObjectURL(file));
   setPreviewUrl((prev) => [...prev, ...urls]);
   setSelectedFiles((prev) => [...prev, ...files]);
-  const length = previewUrl.length;
-  setSelectedIndex(length);
+  setSelectedIndex(previewUrl?.length);
   e.target.value = null;
 };
 
@@ -39,6 +66,7 @@ const previewFile = (index) => setSelectedIndex(index);
         selectedFile={selectedFiles}
         previewFile={previewFile}
         selectedIndex={selectedIndex}
+        accept=".png,.jpg,.jpeg,.svg,.gif"
       />
       <div className="col-span-2 border border-gray-200 rounded-lg h-[calc(100vh-136px)] bg-gray-100 p-4 flex items-center justify-center">
         {previewUrl[selectedIndex] && (

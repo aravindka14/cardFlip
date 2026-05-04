@@ -13,6 +13,7 @@ const InputField = React.forwardRef(
       error = "",
       options = [],
       disabled = false,
+      multiple = false,
       onChange,
       onRemoveFile,
       selectedFile,
@@ -83,6 +84,7 @@ const InputField = React.forwardRef(
                   type="file"
                   name={name}
                   onChange={onChange}
+                  multiple={multiple}
                   ref={ref}
                   disabled={disabled}
                   className="hidden"
@@ -106,7 +108,7 @@ const InputField = React.forwardRef(
                     </button>
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    SVG, PNG, JPG or GIF (max. 10MB)
+                    {rest.accept} 
                   </p>
                 </div>
               </div>
