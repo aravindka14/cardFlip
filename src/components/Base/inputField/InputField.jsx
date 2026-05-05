@@ -206,7 +206,16 @@ const InputField = React.forwardRef(
               </span>
               <span className="text-sm font-medium">{rest.text}</span>
             </label>
-          ) : (
+          ) : type === "textarea" ? (
+              <textarea
+                name={name}
+                ref={ref}
+                placeholder={placeholder}
+                onChange={onChange}
+                {...rest}
+                className={`${BASIC_INPUT_CLS} ${rest.className}`}
+              />
+          ) :   (
             <input
               name={name}
               ref={ref}
