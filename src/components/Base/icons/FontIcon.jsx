@@ -1,11 +1,13 @@
 import { FiUploadCloud } from "react-icons/fi";
 import { FiFile } from "react-icons/fi";
 import { IoTrashOutline } from "react-icons/io5";
+import { CiImageOn } from "react-icons/ci";
 
 const iconMap = {
   uploadCloud: FiUploadCloud,
   file: FiFile,
   trash: IoTrashOutline,
+  ImageOn: CiImageOn,
 };
 
 const FontIcon = ({

@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import FontIcon from "../icons/FontIcon";
 
+const BASIC_INPUT_CLS = `w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all duration-200 
+placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200`;
+
 const InputField = React.forwardRef(
   (
     {
@@ -25,6 +28,9 @@ const InputField = React.forwardRef(
   ) => {
     const [open, setOpen] = useState(false);
     const selected = options.find((opt) => opt.value === value);
+    const acceptString = rest?.accept
+      ?.map((type) => `.${type.split("/")[1].toLocaleUpperCase()}`)
+      .join(", ");
 
     return (
       <div className="w-full space-y-1.5 mt-5">
@@ -39,8 +45,7 @@ const InputField = React.forwardRef(
             <div className="relative w-full">
               <div
                 onClick={() => setOpen(!open)}
-                className="w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all 
-              duration-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+                className={`${BASIC_INPUT_CLS} ${rest?.className}`}
               >
                 {selected ? (
                   <div className="flex items-center gap-2">
@@ -107,9 +112,7 @@ const InputField = React.forwardRef(
                       Click to upload
                     </button>
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {rest.accept} 
-                  </p>
+                  <p className="text-xs text-gray-500 mt-1">{acceptString}</p>
                 </div>
               </div>
               <div className="mt-3 space-y-2">
@@ -166,6 +169,43 @@ const InputField = React.forwardRef(
                   ))}
               </div>
             </>
+          ) : type === "checkbox" ? (
+            <label
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer transition-all duration-200 text-gray-700 
+                ${disabled ? "opacity-50 cursor-not-allowed" : ""} 
+                ${rest?.className}
+              `}
+            >
+              <input
+                type="checkbox"
+                name={name}
+                checked={!!value}
+                onChange={() => onChange(!value)}
+                disabled={disabled}
+                className="hidden"
+              />
+              <span
+                className={`w-4 h-4 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors
+                ${value ? "border-indigo-500 bg-indigo-500" : "border-gray-300"}`}
+              >
+                {value && (
+                  <svg
+                    className="w-3 h-3 text-white"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                  >
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </span>
+              <span className="text-sm font-medium">{rest.text}</span>
+            </label>
           ) : (
             <input
               name={name}
@@ -174,8 +214,7 @@ const InputField = React.forwardRef(
               placeholder={placeholder}
               onChange={onChange}
               {...rest}
-              className={`w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all 
-              duration-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200`}
+              className={`${BASIC_INPUT_CLS} ${rest.className}`}
             />
           )}
         </div>
