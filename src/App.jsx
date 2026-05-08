@@ -11,6 +11,7 @@ import Gallery from "./pages/Gallery";
 import Calendar from "./pages/Calendar";
 import WorldMap from "./pages/WorldMap";
 import Documents from "./pages/Documents";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 function App() {
@@ -38,6 +39,7 @@ function App() {
               <Route path="calendar" element={<Calendar/>} />
               <Route path="worldMap" element={<WorldMap/>} />
               <Route path="documents" element={<Documents/>} />
+              <Route path="profile" element={<Profile/>} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />

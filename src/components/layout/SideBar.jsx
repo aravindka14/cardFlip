@@ -17,7 +17,7 @@ const SideBar = () => {
       url: "/infoCard",
     },
     {
-      name: "Gallery",  
+      name: "Gallery",
       url: "/gallery",
     },
     {
@@ -31,7 +31,11 @@ const SideBar = () => {
     {
       name: "Documents",
       url: "/documents",
-    }
+    },
+    {
+      name: "Profile",
+      url: "/profile",
+    },
   ];
   return (
     <aside className="min-w-64 bg-white border border-gray-200 h-screen flex flex-col justify-between p-5">

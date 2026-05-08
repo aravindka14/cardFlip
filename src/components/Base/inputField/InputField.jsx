@@ -13,7 +13,7 @@ const InputField = React.forwardRef(
       type = "text",
       placeholder,
       value,
-      error = "",
+      error,
       options = [],
       disabled = false,
       multiple = false,
@@ -33,7 +33,7 @@ const InputField = React.forwardRef(
       .join(", ");
 
     return (
-      <div className="w-full space-y-1.5 mt-5">
+      <div className="w-full space-y-1.5 ">
         {label && (
           <label className="text-sm font-medium text-gray-600 ms-1">
             {label}
@@ -49,9 +49,9 @@ const InputField = React.forwardRef(
               >
                 {selected ? (
                   <div className="flex items-center gap-2">
-                    <span
+                    {selected?.color && <span
                       className={`w-3 h-3 rounded-full ${selected?.color}`}
-                    />
+                    />}
                     <span>{selected.label}</span>
                   </div>
                 ) : (
@@ -70,10 +70,8 @@ const InputField = React.forwardRef(
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 rounded-lg"
                     >
-                      <span className={`w-3 h-3 rounded-full ${opt?.color}`} />
-                      <div>
+                      {opt?.color && <span className={`w-3 h-3 rounded-full ${opt?.color}`} />}  
                         <div className="text-sm">{opt.label}</div>
-                      </div>
                     </div>
                   ))}
                 </div>
@@ -82,7 +80,7 @@ const InputField = React.forwardRef(
           ) : type === "file" ? (
             <>
               <div
-                className={`relative w-full rounded-xl border-2 border-gray-300 border-dashed p-6 flex flex-col items-center justify-center gap-3`}
+                className={`relative w-full rounded-xl border-2 border-gray-300 border-dashed p-6 flex flex-col items-center justify-center gap-3 mt-1`}
               >
                 <input
                   id={name}
@@ -90,6 +88,7 @@ const InputField = React.forwardRef(
                   name={name}
                   onChange={onChange}
                   multiple={multiple}
+                  accept={rest.accept}
                   ref={ref}
                   disabled={disabled}
                   className="hidden"

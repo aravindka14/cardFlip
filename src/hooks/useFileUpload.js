@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 
 const useFileUpload = ({
-  allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/svg+xml", "image/gif"],
+  allowedTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/svg+xml",
+    "image/gif",
+  ],
   maxSize = 10 * 1024 * 1024,
-}) => {
+} = {}) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrl, setPreviewUrl] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
