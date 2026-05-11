@@ -15,13 +15,13 @@ const useFileUpload = ({
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const selectFile = (e) => {
+    const isMultiple = e.target.multiple;
     const files = Array.from(e.target.files);
     const validFiles = [];
     const invalidFiles = [];
     files.forEach((file) => {
       const isValidType = allowedTypes.includes(file.type);
       const isValidSize = file.size <= maxSize;
-
       if (isValidType && isValidSize) {
         validFiles.push(file);
       } else {
@@ -35,11 +35,16 @@ const useFileUpload = ({
       e.target.value = null;
       return;
     }
-
-    const urls = files.map((file) => URL.createObjectURL(file));
-    setPreviewUrl((prev) => [...prev, ...urls]);
-    setSelectedFiles((prev) => [...prev, ...files]);
-    setSelectedIndex(previewUrl?.length);
+    const urls = validFiles.map((file) => URL.createObjectURL(file));
+    if (isMultiple) {
+      setSelectedFiles((prev) => [...prev, ...validFiles]);
+      setPreviewUrl((prev) => [...prev, ...urls]);
+      setSelectedIndex(selectedFiles.length);
+    } else {
+      setSelectedFiles(validFiles);
+      setPreviewUrl(urls);
+      setSelectedIndex(0);
+    }
     e.target.value = null;
   };
 

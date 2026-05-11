@@ -60,7 +60,7 @@ const InputField = React.forwardRef(
               </div>
 
               {open && (
-                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-md ">
+                <div className="absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-md ">
                   {options.map((opt) => (
                     <div
                       key={opt.value}

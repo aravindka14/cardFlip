@@ -62,7 +62,7 @@ const Calendar = () => {
           }}
           onSubmit={handleSubmit(handleHoliday)}
         >
-          <div className="mt-5 gap-4 grid grid-cols-1 mb-6">
+          <div className="mt-5 gap-4 grid grid-cols-1 mb-6 ">
             <InputField
               type="date"
               label="Date"

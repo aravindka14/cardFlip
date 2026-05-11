@@ -21,7 +21,7 @@ const Popup = ({ isOpen, onClose, onSubmit, title, children, size = "md" }) => {
         <div className="flex items-center justify-between ">
           <h1 className="text-2xl font-semibold">{title}</h1>
         </div>
-        <div className="overflow-y-auto flex-1">{children}</div>
+        <div className="overflow-visible flex-1">{children}</div>
         <div className="flex justify-end gap-3 bg-white rounded-lg">
           <button
             onClick={onClose}

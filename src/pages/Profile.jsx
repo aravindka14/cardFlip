@@ -33,11 +33,23 @@ const Profile = () => {
       designation: "",
       bio: "",
       dateOfBirth: "",
+      profile_pic: "",
     },
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("age", data.age);
+    formData.append("gender", data.gender);
+    formData.append("designation", data.designation);
+    formData.append("bio", data.bio);
+    formData.append("dateOfBirth", data.dateOfBirth);
+    if (selectedFiles[0]) {
+      formData.append("profile_pic", selectedFiles[0]);
+    }
+    // console.log(formData);
   };
 
   return (
@@ -78,6 +90,8 @@ const Profile = () => {
               label="Enter Age"
               placeholder="Enter your age"
               type="number"
+              min={0}
+              max={100}
               {...register("age", { required: "Age is required" })}
               error={errors?.age?.message}
             />
@@ -115,25 +129,20 @@ const Profile = () => {
             {...register("bio", { required: "Bio is required" })}
             error={errors?.bio?.message}
           />
-
-          {/* <InputField/> */}
         </div>
         <div>
           <InputField
             type="file"
-            name="file"
+            name="profile_pic"
             label="Upload Photo"
             accept={["image/jpg", "image/jpeg", "image/png"]}
-            {...register("file", { required: "File is required" })}
             onChange={selectFile}
-            error={errors?.file?.message}
-            previewFile={previewFile}
-            previewUrl={previewUrl}
-            // selectedFile={selectedFiles}
-            // selectedIndex={selectedIndex}
             onRemoveFile={removeFile}
+            selectedFile={selectedFiles}
+            previewFile={previewFile}
+            selectedIndex={selectedIndex}
           />
-          {previewUrl.length > 0 && (
+          {previewUrl[selectedIndex] && (
             <div className="mt-3">
               <img
                 src={previewUrl[selectedIndex]}
