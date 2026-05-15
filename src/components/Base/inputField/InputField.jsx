@@ -170,7 +170,7 @@ const InputField = React.forwardRef(
             </>
           ) : type === "checkbox" ? (
             <label
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer transition-all duration-200 text-gray-700 
+              className={`flex items-center gap-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 text-gray-700
                 ${disabled ? "opacity-50 cursor-not-allowed" : ""} 
                 ${rest?.className}
               `}

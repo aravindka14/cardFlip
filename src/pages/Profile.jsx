@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../components/Base/inputField/InputField";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../hooks/useFileUpload";
@@ -23,6 +23,7 @@ const Profile = () => {
     handleSubmit,
     setValue,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -34,10 +35,21 @@ const Profile = () => {
       bio: "",
       dateOfBirth: "",
       profile_pic: "",
+      acknowledgement: ""
     },
   });
 
+  useEffect(() => {
+    register("gender", {
+      required: "Gender is required",
+    });
+    register("profile_pic", {
+      validate: () => selectedFiles.length > 0 || "Profile photo is required",
+    });
+  }, [register, selectedFiles]);
+
   const onSubmit = (data) => {
+    if(!data.acknowledgement) return;
     const formData = new FormData();
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
@@ -49,7 +61,7 @@ const Profile = () => {
     if (selectedFiles[0]) {
       formData.append("profile_pic", selectedFiles[0]);
     }
-    // console.log(formData);
+    console.log(...formData.entries());
   };
 
   return (
@@ -104,7 +116,10 @@ const Profile = () => {
               placeholder="Select your gender"
               value={watch("gender")}
               onChange={(val) => {
-                setValue("gender", val);
+                setValue("gender", val, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
               }}
               error={errors?.gender?.message}
             />
@@ -136,27 +151,34 @@ const Profile = () => {
             name="profile_pic"
             label="Upload Photo"
             accept={["image/jpg", "image/jpeg", "image/png"]}
-            onChange={selectFile}
+            onChange={(e) => {
+              (selectFile(e), clearErrors("profile_pic"));
+            }}
             onRemoveFile={removeFile}
             selectedFile={selectedFiles}
             previewFile={previewFile}
             selectedIndex={selectedIndex}
+            error={errors.profile_pic?.message}
           />
-          {previewUrl[selectedIndex] && (
-            <div className="mt-3">
-              <img
-                src={previewUrl[selectedIndex]}
-                alt="Preview"
-                className="w-24 h-24"
-              />
-            </div>
-          )}
         </div>
-      </div>
-      <div className="mt-10 ">
-        <button className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700">
-          Submit
-        </button>
+        <div className="mt-5 flex justify-between items-center">
+            <InputField
+              type="checkbox"
+              name="acknowledgement"
+              text="I agree to the terms and conditions"
+              checked={watch("acknowledgement")}
+              onChange={(checked) => {
+                setValue("acknowledgement", checked, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+              }}
+              value={watch("acknowledgement")}
+            />
+          <button disabled={!watch("acknowledgement")} className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            Submit
+          </button>
+        </div>
       </div>
     </form>
   );
