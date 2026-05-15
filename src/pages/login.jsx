@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "../components/InputField";
+import InputField from "../components/Base/inputField/InputField";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -46,6 +46,7 @@ const login = () => {
           <div className="flex flex-col justify-center items-center w-[360px] mx-auto">
             <InputField
               type="text"
+              name="userName"
               label={"User Name"}
               placeholder={"Enter Userame"}
               error={errors.userName?.message}
@@ -58,6 +59,7 @@ const login = () => {
             <InputField
               type="password"
               label={"Password"}
+              name="password"
               placeholder={"Enter Password"}
               error={errors.password?.message}
               {...register("password", {

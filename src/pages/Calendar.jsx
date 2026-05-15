@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import YearCalendar from "../components/YearCalendar";
-import Popup from "../components/Base/Popup";
-import InputField from "../components/InputField";
+import Popup from "../components/Base/pop-up/Popup";
+import InputField from "../components/Base/inputField/InputField";
 import { useForm } from "react-hook-form";
 import { convertToISO } from "../utils/helper";
 import useHolidayList from "../store/HolidayListStore";
@@ -62,7 +62,7 @@ const Calendar = () => {
           }}
           onSubmit={handleSubmit(handleHoliday)}
         >
-          <div className="mt-5">
+          <div className="mt-5 gap-4 grid grid-cols-1 mb-6 ">
             <InputField
               type="date"
               label="Date"

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Table from "../components/Table";
+import Table from "../components/Base/table/Table";
 import userStore from "../store/UserStore";
 import { useGetUsers } from "../queries/users/useUserQueries";
 
