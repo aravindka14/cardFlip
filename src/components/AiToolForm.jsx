@@ -10,9 +10,15 @@ const AiToolForm = () => {
     formState: { errors },
   } = useForm();
   return (
-    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-      {aiToolsFormFields?.map((field) =>(
-        <InputField label="Tool Name" />
+    <div className="">
+      {aiToolsFormFields?.map((field) => (
+        <InputField
+          key={field.name}
+          label={field.label}
+          type={field.type}
+          placeholder={field.placeholder}
+          {...register(field.name)}
+        />
       ))}
     </div>
   );
