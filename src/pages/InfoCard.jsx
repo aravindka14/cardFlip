@@ -5,36 +5,53 @@ import { useGetAiTools } from "../queries/aiTools/useAiToolsQueries";
 import Popup from "../components/Base/pop-up/Popup";
 import AiToolForm from "../components/AiToolForm";
 import Slider from "../components/Base/slider/Slider";
+import { useForm } from "react-hook-form";
 
 const InfoCard = () => {
+  
+  const methods = useForm({
+    defaultValues: {
+      title: "",
+      subtitle: "",
+      tags: [],
+      description: "",
+      detailedDescription: "",
+      features: [],
+      footer: [],
+    },
+  });
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const { data: aiToolsData } = useGetAiTools();
-  const formRef = useRef(null);
 
-  const handleFormSubmit = (data) => {
-    console.log("submitted", data);
+  const onSubmit = (data) => {
+    console.log("data", data);
   };
 
   return (
     <>
-      {/* <Popup
-        size="xxl"
+      <Popup
         isOpen={isOpenPopup}
-        onClose={() => setIsOpenPopup(false)}
-        title={"Add AI Tools"}
-        onSubmit={() => formRef.current.submit()}
+        onClose={() => {
+          (setIsOpenPopup(false), methods.reset());
+        }}
+        primaryButtonText="Save"
+        onSubmit={() => {
+          console.log("Save clicked");
+          methods.handleSubmit(onSubmit)();
+        }}
+        size="lg"
       >
-        <AiToolForm ref={formRef} onSubmit={handleFormSubmit} />
-      </Popup> */}
+        <AiToolForm methods={methods} />
+      </Popup>
 
-      <Slider
+      {/* <Slider
         showSlider={isOpenPopup}
         setShowSlider={setIsOpenPopup}
         headline="Add AI Tool"
         size="medium"
       >
         <AiToolForm />
-      </Slider>
+      </Slider> */}
 
       <div className="mt-8 px-12">
         <div className="flex justify-end items-center mb-6">

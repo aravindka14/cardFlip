@@ -14,9 +14,8 @@ export const aiToolsFormFields = [
   {
     name: "tags",
     label: "Tags",
-    type: "array", // custom type
-    placeholder: "Enter tags (press Enter)",
-    required: true,
+    type: "multiSelect",
+    placeholder: "Enter tags",
   },
   {
     name: "description",
@@ -33,14 +32,14 @@ export const aiToolsFormFields = [
   {
     name: "features",
     label: "Features",
-    type: "array",
+    type: "multiSelect",
     placeholder: "Enter features",
     required: true,
   },
   {
     name: "footer",
     label: "Footer",
-    type: "array",
+    type: "multiSelect",
     placeholder: "Enter footer items",
     required: true,
   },

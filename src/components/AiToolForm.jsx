@@ -1,26 +1,43 @@
 import React from "react";
 import InputField from "./Base/inputField/InputField";
 import { aiToolsFormFields } from "../constants/aiToolFormData";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
-const AiToolForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+const AiToolForm = ({ methods }) => {
+  const { register, control } = methods;
   return (
-    <div className="">
-      {aiToolsFormFields?.map((field) => (
-        <InputField
-          key={field.name}
-          label={field.label}
-          type={field.type}
-          placeholder={field.placeholder}
-          {...register(field.name)}
-        />
-      ))}
-    </div>
+    <form className="m-2 mb-10">
+      {aiToolsFormFields.map((field) => {
+        if (field.type === "multiSelect") {
+          return (
+            <Controller
+              key={field.name}
+              name={field.name}
+              control={control}
+              defaultValue={[]}
+              render={({ field: controllerField }) => (
+                <InputField
+                  {...controllerField}
+                  type="multiSelect"
+                  label={field.label}
+                  placeholder={field.placeholder}
+                />
+              )}
+            />
+          );
+        }
+
+        return (
+          <InputField
+            key={field.name}
+            label={field.label}
+            type={field.type}
+            placeholder={field.placeholder}
+            {...register(field.name)}
+          />
+        );
+      })}
+    </form>
   );
 };
 

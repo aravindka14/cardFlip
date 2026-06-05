@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import FontIcon from "../icons/FontIcon";
+import MultiSelect from "./multiSelect/MultiSelect";
+import { Controller, useForm } from "react-hook-form";
 
 const BASIC_INPUT_CLS = `w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all duration-200 
 placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200`;
@@ -32,6 +34,12 @@ const InputField = React.forwardRef(
       ?.map((type) => `.${type.split("/")[1].toLocaleUpperCase()}`)
       .join(", ");
 
+    const methods = useForm({
+      defaultValues: {
+        tags: [],
+      },
+    });
+
     return (
       <div className="w-full space-y-1.5 ">
         {label && (
@@ -49,9 +57,11 @@ const InputField = React.forwardRef(
               >
                 {selected ? (
                   <div className="flex items-center gap-2">
-                    {selected?.color && <span
-                      className={`w-3 h-3 rounded-full ${selected?.color}`}
-                    />}
+                    {selected?.color && (
+                      <span
+                        className={`w-3 h-3 rounded-full ${selected?.color}`}
+                      />
+                    )}
                     <span>{selected.label}</span>
                   </div>
                 ) : (
@@ -70,8 +80,12 @@ const InputField = React.forwardRef(
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 rounded-lg"
                     >
-                      {opt?.color && <span className={`w-3 h-3 rounded-full ${opt?.color}`} />}  
-                        <div className="text-sm">{opt.label}</div>
+                      {opt?.color && (
+                        <span
+                          className={`w-3 h-3 rounded-full ${opt?.color}`}
+                        />
+                      )}
+                      <div className="text-sm">{opt.label}</div>
                     </div>
                   ))}
                 </div>
@@ -206,15 +220,31 @@ const InputField = React.forwardRef(
               <span className="text-sm font-medium">{rest.text}</span>
             </label>
           ) : type === "textarea" ? (
-              <textarea
-                name={name}
-                ref={ref}
-                placeholder={placeholder}
-                onChange={onChange}
-                {...rest}
-                className={`${BASIC_INPUT_CLS} ${rest.className}`}
+            <textarea
+              name={name}
+              ref={ref}
+              placeholder={placeholder}
+              onChange={onChange}
+              {...rest}
+              className={`${BASIC_INPUT_CLS} ${rest.className}`}
+            />
+          ) : type === "multiSelect" ? (
+            <div>
+              <Controller
+                name="tags"
+                control={methods.control}
+                render={({ field }) => (
+                  <MultiSelect
+                  className={`${BASIC_INPUT_CLS}`}
+                    {...field}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                  />
+                )}
               />
-          ) :   (
+            </div>
+          ) : (
             <input
               name={name}
               ref={ref}
