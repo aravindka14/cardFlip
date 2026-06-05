@@ -235,7 +235,7 @@ const InputField = React.forwardRef(
                 control={methods.control}
                 render={({ field }) => (
                   <MultiSelect
-                  className={`${BASIC_INPUT_CLS}`}
+                  
                     {...field}
                     value={value}
                     onChange={onChange}
