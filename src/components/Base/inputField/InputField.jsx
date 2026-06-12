@@ -1,11 +1,74 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import FontIcon from "../icons/FontIcon";
-import MultiSelect from "./multiSelect/MultiSelect";
-import { Controller, useForm } from "react-hook-form";
+import CreatableSelect from "react-select/creatable";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
-const BASIC_INPUT_CLS = `w-full rounded-lg border bg-white px-4 py-2.5 mt-1 text-sm text-gray-800 shadow-sm transition-all duration-200 
-placeholder:text-gray-400 focus:outline-none focus:ring-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:ring-gray-200`;
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    minHeight: "48px",
+    borderRadius: "0.75rem",
+    backgroundColor: "rgba(248, 250, 252, 0.5)",
+    borderColor: state.isFocused 
+      ? "#6366f1" 
+      : state.selectProps.error 
+        ? "#f87171" 
+        : "#e2e8f0",
+    boxShadow: state.isFocused 
+      ? "0 0 0 2px rgba(99, 102, 241, 0.2)" 
+      : "none",
+    padding: "2px 6px",
+    fontSize: "14px",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      borderColor: state.isFocused ? "#6366f1" : "#cbd5e1",
+    },
+  }),
+
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "2px 6px",
+  }),
+
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#9ca3af",
+  }),
+
+  multiValue: (provided) => ({
+    ...provided,
+    borderRadius: "6px",
+    backgroundColor: "#eef2ff",
+  }),
+
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: "#4338ca",
+    fontWeight: 500,
+  }),
+
+  multiValueRemove: (provided) => ({
+    ...provided,
+    cursor: "pointer",
+  }),
+
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "0.75rem",
+    overflow: "hidden",
+    zIndex: 9999,
+  }),
+
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? "#f3f4f6" : "#fff",
+    color: "#111827",
+    cursor: "pointer",
+  }),
+};
+
+const BASIC_INPUT_CLS = `w-full rounded-xl border bg-slate-50/50 mt-1 text-sm text-slate-800 transition-all duration-300 
+placeholder:text-slate-400/80 focus:outline-none focus:ring-2`;
 
 const InputField = React.forwardRef(
   (
@@ -24,26 +87,22 @@ const InputField = React.forwardRef(
       selectedFile,
       previewFile,
       selectedIndex,
+      icon: Icon,
       ...rest
     },
     ref,
   ) => {
     const [open, setOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const selected = options.find((opt) => opt.value === value);
     const acceptString = rest?.accept
       ?.map((type) => `.${type.split("/")[1].toLocaleUpperCase()}`)
       .join(", ");
 
-    const methods = useForm({
-      defaultValues: {
-        tags: [],
-      },
-    });
-
     return (
       <div className="w-full space-y-1.5 ">
         {label && (
-          <label className="text-sm font-medium text-gray-600 ms-1">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 ms-1">
             {label}
           </label>
         )}
@@ -53,7 +112,7 @@ const InputField = React.forwardRef(
             <div className="relative w-full">
               <div
                 onClick={() => setOpen(!open)}
-                className={`${BASIC_INPUT_CLS} ${rest?.className}`}
+                className={`${BASIC_INPUT_CLS} border-slate-200 hover:border-slate-300 px-4 py-3 flex items-center justify-between cursor-pointer ${rest?.className || ""}`}
               >
                 {selected ? (
                   <div className="flex items-center gap-2">
@@ -65,7 +124,7 @@ const InputField = React.forwardRef(
                     <span>{selected.label}</span>
                   </div>
                 ) : (
-                  <span className="text-gray-400">{placeholder}</span>
+                  <span className="text-slate-400">{placeholder}</span>
                 )}
               </div>
 
@@ -94,7 +153,7 @@ const InputField = React.forwardRef(
           ) : type === "file" ? (
             <>
               <div
-                className={`relative w-full rounded-xl border-2 border-gray-300 border-dashed p-6 flex flex-col items-center justify-center gap-3 mt-1`}
+                className={`relative w-full rounded-xl border-2 border-slate-200 border-dashed p-6 flex flex-col items-center justify-center gap-3 mt-1 hover:border-slate-300 transition-colors`}
               >
                 <input
                   id={name}
@@ -226,37 +285,56 @@ const InputField = React.forwardRef(
               placeholder={placeholder}
               onChange={onChange}
               {...rest}
-              className={`${BASIC_INPUT_CLS} ${rest.className}`}
+              className={`${BASIC_INPUT_CLS} ${error ? "border-red-400 focus:ring-red-500/10 focus:border-red-500" : "border-slate-200 hover:border-slate-300 focus:ring-indigo-500/20 focus:border-indigo-500"} px-4 py-3 ${rest.className || ""}`}
             />
           ) : type === "multiSelect" ? (
             <div>
-              <Controller
-                name="tags"
-                control={methods.control}
-                render={({ field }) => (
-                  <MultiSelect
-                  
-                    {...field}
-                    value={value}
-                    onChange={onChange}
-                    placeholder={placeholder}
-                  />
-                )}
+              <CreatableSelect
+                isMulti
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                styles={customStyles}
+                error={error}
+                components={{
+                  DropdownIndicator: null,
+                  IndicatorSeparator: null,
+                }}
+                isClearable
+                menuIsOpen={false}
               />
             </div>
           ) : (
-            <input
-              name={name}
-              ref={ref}
-              type={type}
-              placeholder={placeholder}
-              onChange={onChange}
-              {...rest}
-              className={`${BASIC_INPUT_CLS} ${rest.className}`}
-            />
+            <div className="relative group">
+              {Icon && (
+                <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors duration-200">
+                  <Icon size={18} />
+                </div>
+              )}
+              <input
+                name={name}
+                ref={ref}
+                type={type === "password" ? (showPassword ? "text" : "password") : type}
+                placeholder={placeholder}
+                onChange={onChange}
+                {...rest}
+                className={`${BASIC_INPUT_CLS} ${error ? "border-red-400 focus:ring-red-500/10 focus:border-red-500" : "border-slate-200 hover:border-slate-300 focus:ring-indigo-500/20 focus:border-indigo-500"} ${Icon ? "pl-11" : "pl-4"} ${type === "password" ? "pr-11" : "pr-4"} py-3 ${rest.className || ""}`}
+              />
+              {type === "password" && (
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors duration-200"
+                >
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                </button>
+              )}
+            </div>
           )}
         </div>
-        <p className="text-xs text-red-500 ms-1">{error}</p>
+        <p className="text-xs text-red-500 ms-1 flex items-center gap-1 font-medium">
+          {error && <>{error}</>}
+        </p>
       </div>
     );
   },

@@ -1,84 +1,121 @@
-import React from "react";
-import InputField from "../components/Base/inputField/InputField";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { FiUser, FiLock } from "react-icons/fi";
+import InputField from "../components/Base/inputField/InputField";
 
-const login = () => {
+const Login = () => {
   const navigate = useNavigate();
-  // const [password, setPassword] = useState("")
-  // const [userName, setUserName] = useState("")
+  const [rememberMe, setRememberMe] = useState(false);
 
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const handleLogin = (data) => {
     const { userName, password } = data;
-    // console.log("password", password);
-    // console.log("username", userName);
-    // if (!userName.trim() || !password.trim()) {
-    //   alert("Please enter username and password");
-    //   return;
-    // }
     if (password === "123" && userName === "ara") {
       sessionStorage.setItem("user", userName);
       navigate("/");
     } else {
-      // alert("Invalid username or password");
       setError("password", {
         type: "manual",
         message: "Invalid username or password",
       });
     }
   };
+
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-[450px] bg-white p-8 rounded-2xl shadow-lg">
-        <h1 className="text-3xl text-gray-600 text-center mb-6">LOGIN</h1>
-
-        <form
-          onSubmit={handleSubmit(handleLogin)}
-          className="flex flex-col gap-4"
-        >
-          <div className="flex flex-col justify-center items-center w-[360px] mx-auto">
-            <InputField
-              type="text"
-              name="userName"
-              label={"User Name"}
-              placeholder={"Enter Userame"}
-              error={errors.userName?.message}
-              {...register("userName", {
-                required: "Username is required",
-              })}
-              // value={userName}
-            />
-
-            <InputField
-              type="password"
-              label={"Password"}
-              name="password"
-              placeholder={"Enter Password"}
-              error={errors.password?.message}
-              {...register("password", {
-                required: "Password is required",
-              })}
-              // value={password}
-            />
-
-            <button
-              type="submit"
-              className="w-[100px] bg-black text-white mt-5 py-2 rounded-lg hover:bg-gray-800 transition"
-            >
-              Login
-            </button>
+    <div className="min-h-screen w-full flex items-center justify-center p-6 bg-slate-50 font-sans">
+      <div className="w-full max-w-[440px] bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)] p-8 sm:p-10">
+        
+        <div className="flex items-center gap-2 mb-8">
+          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-lg text-white shadow-md">
+            🎴
           </div>
+          <span className="font-bold text-slate-800 tracking-tight text-lg">CardFlip</span>
+        </div>
+
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+            Welcome back
+          </h1>
+          <p className="text-slate-500 text-sm mt-1">
+            Please enter your details to sign in.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col gap-5">
+          <InputField
+            label="Username"
+            icon={FiUser}
+            type="text"
+            placeholder="e.g. ara"
+            error={errors.userName?.message}
+            {...register("userName", {
+              required: "Username is required",
+            })}
+          />
+
+          <InputField
+            label="Password"
+            icon={FiLock}
+            type="password"
+            placeholder="••••••••"
+            error={errors.password?.message}
+            {...register("password", {
+              required: "Password is required",
+            })}
+          />
+
+          {/* Remember & Forgot Row */}
+          <div className="flex items-center justify-between mt-1">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600 hover:text-slate-800 transition-colors">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500/20"
+              />
+              <span className="text-sm font-medium">Remember me</span>
+            </label>
+            
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()}
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+            >
+              Forgot password?
+            </a>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md shadow-indigo-600/10 flex justify-center items-center gap-2"
+          >
+            {isSubmitting ? (
+              <span className="w-5 h-5 border-2 border-white/35 border-t-white rounded-full animate-spin"></span>
+            ) : (
+              "Sign In"
+            )}
+          </button>
         </form>
+
+        {/* Footer Access Request */}
+        <div className="mt-8 text-center text-xs text-slate-400">
+          Don't have credentials?{" "}
+          <span className="text-slate-500 font-medium cursor-help hover:text-slate-700 underline underline-offset-2">
+            Contact administrator
+          </span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default login;
+export default Login;
