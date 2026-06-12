@@ -94,6 +94,7 @@ const InputField = React.forwardRef(
   ) => {
     const [open, setOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [multiInputValue, setMultiInputValue] = useState("");
     const selected = options.find((opt) => opt.value === value);
     const acceptString = rest?.accept
       ?.map((type) => `.${type.split("/")[1].toLocaleUpperCase()}`)
@@ -291,8 +292,27 @@ const InputField = React.forwardRef(
             <div>
               <CreatableSelect
                 isMulti
-                value={value}
-                onChange={onChange}
+                name={name}
+                ref={ref}
+                value={(value || []).map((v) => ({ label: v, value: v }))}
+                onChange={(newOptions) => {
+                  onChange((newOptions || []).map((opt) => opt.value));
+                }}
+                onBlur={rest.onBlur}
+                inputValue={multiInputValue}
+                onInputChange={(newVal) => setMultiInputValue(newVal)}
+                onKeyDown={(e) => {
+                  if (!multiInputValue) return;
+                  if (e.key === "Enter" || e.key === "Tab") {
+                    e.preventDefault();
+                    // prevent duplicate tags
+                    const exists = (value || []).includes(multiInputValue);
+                    if (!exists) {
+                      onChange(value ? [...value, multiInputValue] : [multiInputValue]);
+                    }
+                    setMultiInputValue("");
+                  }
+                }}
                 placeholder={placeholder}
                 styles={customStyles}
                 error={error}
