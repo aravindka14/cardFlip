@@ -1,16 +1,7 @@
-import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiPath from "../apiPath";
+import { interceptor } from "../interceptor";
 
-const baseURL = "http://localhost:3000/";
-
-const interceptor = axios.create({
-  baseURL,
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
-});
 
 export const useAiToolsQueries = () => {
   const queryClient = useQueryClient();
