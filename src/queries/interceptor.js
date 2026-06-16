@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// const baseURL = "https://jsonplaceholder.typicode.com/";
 const baseURL = "http://localhost:3000";
 
 export const interceptor = axios.create({
@@ -65,7 +64,8 @@ interceptor.interceptors.response.use(
           break;
       }
     }
+    return Promise.reject(error);
   },
 );
 
-export default interceptor
+export default interceptor;
