@@ -1,5 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { interceptor } from "../interceptor";
+import axios from "axios";
+// import { interceptor } from "../interceptor";
+
+const baseURL = "https://jsonplaceholder.typicode.com/";
+
+export const interceptor = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+});
 
 export const useGetGallery = (page, limit) => {
   return useQuery({

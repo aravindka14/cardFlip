@@ -22,7 +22,7 @@ function App() {
           <Route
             path="/login"
             element={
-              sessionStorage.getItem("user") ? (
+              localStorage.getItem("token") ? (
                 <Navigate to="/" replace />
               ) : (
                 <Login />

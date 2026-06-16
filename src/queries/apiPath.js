@@ -1,8 +1,8 @@
 const apiPath ={ 
     aiTools : {
-        getAllAiTools :"/getAllAiTools",
-        addAiTools :"/addAiTools",
-        deleteAiTools: (id)=> `/deleteAiTools/${id}`
+        getAllAiTools :"/ai-tools/getAllAiTools",
+        addAiTools :"/ai-tools/addAiTools",
+        deleteAiTools: (id)=> `/ai-tools/deleteAiTools/${id}`
     }
 }
 
