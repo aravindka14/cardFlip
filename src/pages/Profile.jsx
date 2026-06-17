@@ -3,6 +3,7 @@ import InputField from "../components/Base/inputField/InputField";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../hooks/useFileUpload";
 import { useProfileQueries } from "../queries/profile/useProfileQueries";
+import { toast } from "react-toastify";
 
 const genderOptions = [
   { value: "male", label: "Male" },
@@ -10,11 +11,12 @@ const genderOptions = [
 ];
 
 const Profile = () => {
-  const { useGetProfile, useCreateProfile } = useProfileQueries();
-  const { mutateAsync: createProfile } = useCreateProfile();
+  const { useGetProfile, useCreateProfile, useUpdateProfile } =
+    useProfileQueries();
+  const { mutate: createProfile } = useCreateProfile();
+  const { mutate: updateProfile } = useUpdateProfile();
   const { data: profileData, isLoading, error } = useGetProfile();
-  console.log(profileData,"profileData");
-  
+  console.log(profileData, "profileData");
 
   const {
     selectFile,
@@ -31,19 +33,35 @@ const Profile = () => {
     setValue,
     watch,
     clearErrors,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: profileData?.name||"",
-      lastName: profileData?.lastName||"",
-      age: profileData?.age||"",
-      gender: profileData?.gender||"",
-      designation: profileData?.designation||"",
-      bio: profileData?.bio||"",
+      firstName: "",
+      lastName: "",
+      age: "",
+      gender: "",
+      designation: "",
+      bio: "",
       dateOfBirth: "",
       profile_pic: "",
     },
   });
+
+  useEffect(() => {
+    if (profileData) {
+      reset({
+        firstName: profileData.name || "",
+        lastName: profileData.lastName || "",
+        age: profileData.age || "",
+        gender: profileData.gender || "",
+        designation: profileData.designation || "",
+        bio: profileData.bio || "",
+        dateOfBirth: profileData.Dob?.split("T")[0] || "",
+        profile_pic: "",
+      });
+    }
+  }, [profileData, reset]);
 
   useEffect(() => {
     register("gender", {
@@ -68,7 +86,25 @@ const Profile = () => {
       formData.append("userImg", selectedFiles[0]);
     }
 
-    createProfile({ data: formData });
+    if (profileData) {
+      updateProfile(
+        { data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Profile updated successfully");
+          },
+        },
+      );
+    } else {
+      createProfile(
+        { data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Profile created successfully");
+          },
+        },
+      );
+    }
   };
 
   return (

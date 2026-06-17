@@ -7,6 +7,7 @@ const apiPath ={
     profile: {
         getProfile: "/profile/getProfile",
         addProfile: "/profile/addProfile",
+        updateProfile: "/profile/updateProfile",
     }
 }
 

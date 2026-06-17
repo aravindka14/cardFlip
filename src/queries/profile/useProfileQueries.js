@@ -3,14 +3,14 @@ import apiPath from "../apiPath"
 import { interceptor } from "../interceptor"
 
 export const useProfileQueries = () =>{
-    const queryClient = useQueryClient;
+    const queryClient = useQueryClient();
 
     const useGetProfile = () => {
         return useQuery({
             queryKey: ["profile"],
             queryFn: async () => {
                 const res = await interceptor.get(apiPath.profile.getProfile);
-                return res.data;
+                return res.data;             
             },
         });
     };
@@ -29,9 +29,24 @@ export const useProfileQueries = () =>{
         });
     };
 
+    const useUpdateProfile = () => {
+        return useMutation({
+            mutationFn: async ({data}) => {
+                const res = await interceptor.put(apiPath.profile.updateProfile, data);
+                return res.data;
+            },
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ["profile"],
+                });
+            },
+        });
+    }
+
     return {
         useGetProfile,
         useCreateProfile,
+        useUpdateProfile
     }
 }
     
