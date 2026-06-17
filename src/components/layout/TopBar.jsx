@@ -16,8 +16,8 @@ const TopBar = () => {
   }, []);
 
   const handleLogout = () => {
-    console.log("logout click");
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId")
     window.location.href = "/login";
   };
 

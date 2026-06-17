@@ -33,8 +33,8 @@ const Gallery = () => {
       scrollableTarget="scrollableDiv"
     >
       <div className="p-9 grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10">
-        {photos.map((card) => (
-          <PhotoCard key={card.id} {...card} />
+        {photos.map((card, idx) => (
+          <PhotoCard key={idx} {...card} />
         ))}
       </div>
     </InfiniteScroll>

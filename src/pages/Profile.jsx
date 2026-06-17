@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import InputField from "../components/Base/inputField/InputField";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../hooks/useFileUpload";
+import { useProfileQueries } from "../queries/profile/useProfileQueries";
 
 const genderOptions = [
   { value: "male", label: "Male" },
@@ -9,6 +10,12 @@ const genderOptions = [
 ];
 
 const Profile = () => {
+  const { useGetProfile, useCreateProfile } = useProfileQueries();
+  const { mutateAsync: createProfile } = useCreateProfile();
+  const { data: profileData, isLoading, error } = useGetProfile();
+  console.log(profileData,"profileData");
+  
+
   const {
     selectFile,
     removeFile,
@@ -27,15 +34,14 @@ const Profile = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      age: "",
-      gender: "",
-      designation: "",
-      bio: "",
+      firstName: profileData?.name||"",
+      lastName: profileData?.lastName||"",
+      age: profileData?.age||"",
+      gender: profileData?.gender||"",
+      designation: profileData?.designation||"",
+      bio: profileData?.bio||"",
       dateOfBirth: "",
       profile_pic: "",
-      acknowledgement: ""
     },
   });
 
@@ -49,19 +55,20 @@ const Profile = () => {
   }, [register, selectedFiles]);
 
   const onSubmit = (data) => {
-    if(!data.acknowledgement) return;
+    if (!data.acknowledgement) return;
     const formData = new FormData();
-    formData.append("firstName", data.firstName);
+    formData.append("name", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("age", data.age);
     formData.append("gender", data.gender);
     formData.append("designation", data.designation);
     formData.append("bio", data.bio);
-    formData.append("dateOfBirth", data.dateOfBirth);
+    formData.append("Dob", data.dateOfBirth);
     if (selectedFiles[0]) {
-      formData.append("profile_pic", selectedFiles[0]);
+      formData.append("userImg", selectedFiles[0]);
     }
-    console.log(...formData.entries());
+
+    createProfile({ data: formData });
   };
 
   return (
@@ -162,20 +169,23 @@ const Profile = () => {
           />
         </div>
         <div className="mt-5 flex justify-between items-center">
-            <InputField
-              type="checkbox"
-              name="acknowledgement"
-              text="I agree to the terms and conditions"
-              checked={watch("acknowledgement")}
-              onChange={(checked) => {
-                setValue("acknowledgement", checked, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                });
-              }}
-              value={watch("acknowledgement")}
-            />
-          <button disabled={!watch("acknowledgement")} className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          <InputField
+            type="checkbox"
+            name="acknowledgement"
+            text="I agree to the terms and conditions"
+            checked={watch("acknowledgement")}
+            onChange={(checked) => {
+              setValue("acknowledgement", checked, {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+            }}
+            value={watch("acknowledgement")}
+          />
+          <button
+            disabled={!watch("acknowledgement")}
+            className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Submit
           </button>
         </div>

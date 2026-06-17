@@ -25,13 +25,15 @@ const Login = () => {
       { email: userName, password },
       {
         onSuccess: (data) => {
-          console.log("inside", data);
           localStorage.setItem("token", data.token);
           localStorage.setItem("userId", data.id);
           navigate("/");
         },
         onError: (error) => {
-          console.log(error.message);
+          setError("password", {
+            type: "manual",
+            message: error?.response?.data?.message,
+          });
         },
       },
     );

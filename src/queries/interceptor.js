@@ -5,7 +5,6 @@ const baseURL = "http://localhost:3000";
 export const interceptor = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
@@ -16,6 +15,9 @@ interceptor.interceptors.request.use(
       localStorage.getItem("token") || sessionStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    if (config.data instanceof FormData) {
+      delete config.headers["Content-Type"];
     }
     return config;
   },

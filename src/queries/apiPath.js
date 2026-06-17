@@ -3,6 +3,10 @@ const apiPath ={
         getAllAiTools :"/ai-tools/getAllAiTools",
         addAiTools :"/ai-tools/addAiTools",
         deleteAiTools: (id)=> `/ai-tools/${id}/deleteAiTools`
+    },
+    profile: {
+        getProfile: "/profile/getProfile",
+        addProfile: "/profile/addProfile",
     }
 }
 
