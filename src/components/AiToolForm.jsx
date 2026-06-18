@@ -4,7 +4,8 @@ import { aiToolsFormFields } from "../constants/aiToolFormData";
 import { Controller, useForm } from "react-hook-form";
 
 const AiToolForm = ({ methods }) => {
-  const { register, control } = methods;
+  const { register, control, formState } = methods;
+  const { errors } = formState;
   return (
     <form className="m-2 mb-10">
       {aiToolsFormFields.map((field) => {
@@ -33,7 +34,10 @@ const AiToolForm = ({ methods }) => {
             label={field.label}
             type={field.type}
             placeholder={field.placeholder}
-            {...register(field.name)}
+            {...register(field.name, {
+              required: field.required ? field.required : false,
+            })}
+            error={errors[field.name]?.message}
           />
         );
       })}

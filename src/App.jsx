@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProtectedRoute from "./utils/ProtectedRouts";
@@ -22,28 +24,36 @@ function App() {
           <Route
             path="/login"
             element={
-              sessionStorage.getItem("user") ? (
+              localStorage.getItem("token") ? (
                 <Navigate to="/" replace />
               ) : (
                 <Login />
               )
             }
-          />   
+          />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Home />}>
-              <Route index element={<Navigate to="users" replace />} />             
+              <Route index element={<Navigate to="users" replace />} />
               <Route path="users" element={<Users />} />
               <Route path="infoCard" element={<InfoCard />} />
               <Route path="gallery" element={<Gallery />} />
-              <Route path="calendar" element={<Calendar/>} />
-              <Route path="worldMap" element={<WorldMap/>} />
-              <Route path="documents" element={<Documents/>} />
-              <Route path="profile" element={<Profile/>} />
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="worldMap" element={<WorldMap />} />
+              <Route path="documents" element={<Documents />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
+        <ToastContainer
+          position="bottom-left"
+          autoClose={3000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
       </QueryClientProvider>
     </>
   );

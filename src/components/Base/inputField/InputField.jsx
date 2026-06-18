@@ -86,6 +86,7 @@ const InputField = React.forwardRef(
       onRemoveFile,
       selectedFile,
       previewFile,
+      required,
       selectedIndex,
       icon: Icon,
       ...rest
@@ -337,6 +338,7 @@ const InputField = React.forwardRef(
                 type={type === "password" ? (showPassword ? "text" : "password") : type}
                 placeholder={placeholder}
                 onChange={onChange}
+                required={required}
                 {...rest}
                 className={`${BASIC_INPUT_CLS} ${error ? "border-red-400 focus:ring-red-500/10 focus:border-red-500" : "border-slate-200 hover:border-slate-300 focus:ring-indigo-500/20 focus:border-indigo-500"} ${Icon ? "pl-11" : "pl-4"} ${type === "password" ? "pr-11" : "pr-4"} py-3 ${rest.className || ""}`}
               />

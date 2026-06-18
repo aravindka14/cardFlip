@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import InputField from "../components/Base/inputField/InputField";
 import { useForm } from "react-hook-form";
 import useFileUpload from "../hooks/useFileUpload";
+import { useProfileQueries } from "../queries/profile/useProfileQueries";
+import { toast } from "react-toastify";
 
 const genderOptions = [
   { value: "male", label: "Male" },
@@ -9,6 +11,13 @@ const genderOptions = [
 ];
 
 const Profile = () => {
+  const { useGetProfile, useCreateProfile, useUpdateProfile } =
+    useProfileQueries();
+  const { mutate: createProfile } = useCreateProfile();
+  const { mutate: updateProfile } = useUpdateProfile();
+  const { data: profileData, isLoading, error } = useGetProfile();
+  console.log(profileData, "profileData");
+
   const {
     selectFile,
     removeFile,
@@ -24,6 +33,7 @@ const Profile = () => {
     setValue,
     watch,
     clearErrors,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -35,9 +45,23 @@ const Profile = () => {
       bio: "",
       dateOfBirth: "",
       profile_pic: "",
-      acknowledgement: ""
     },
   });
+
+  useEffect(() => {
+    if (profileData) {
+      reset({
+        firstName: profileData.name || "",
+        lastName: profileData.lastName || "",
+        age: profileData.age || "",
+        gender: profileData.gender || "",
+        designation: profileData.designation || "",
+        bio: profileData.bio || "",
+        dateOfBirth: profileData.Dob?.split("T")[0] || "",
+        profile_pic: "",
+      });
+    }
+  }, [profileData, reset]);
 
   useEffect(() => {
     register("gender", {
@@ -49,19 +73,38 @@ const Profile = () => {
   }, [register, selectedFiles]);
 
   const onSubmit = (data) => {
-    if(!data.acknowledgement) return;
+    if (!data.acknowledgement) return;
     const formData = new FormData();
-    formData.append("firstName", data.firstName);
+    formData.append("name", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("age", data.age);
     formData.append("gender", data.gender);
     formData.append("designation", data.designation);
     formData.append("bio", data.bio);
-    formData.append("dateOfBirth", data.dateOfBirth);
+    formData.append("Dob", data.dateOfBirth);
     if (selectedFiles[0]) {
-      formData.append("profile_pic", selectedFiles[0]);
+      formData.append("userImg", selectedFiles[0]);
     }
-    console.log(...formData.entries());
+
+    if (profileData) {
+      updateProfile(
+        { data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Profile updated successfully");
+          },
+        },
+      );
+    } else {
+      createProfile(
+        { data: formData },
+        {
+          onSuccess: () => {
+            toast.success("Profile created successfully");
+          },
+        },
+      );
+    }
   };
 
   return (
@@ -162,20 +205,23 @@ const Profile = () => {
           />
         </div>
         <div className="mt-5 flex justify-between items-center">
-            <InputField
-              type="checkbox"
-              name="acknowledgement"
-              text="I agree to the terms and conditions"
-              checked={watch("acknowledgement")}
-              onChange={(checked) => {
-                setValue("acknowledgement", checked, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                });
-              }}
-              value={watch("acknowledgement")}
-            />
-          <button disabled={!watch("acknowledgement")} className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          <InputField
+            type="checkbox"
+            name="acknowledgement"
+            text="I agree to the terms and conditions"
+            checked={watch("acknowledgement")}
+            onChange={(checked) => {
+              setValue("acknowledgement", checked, {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+            }}
+            value={watch("acknowledgement")}
+          />
+          <button
+            disabled={!watch("acknowledgement")}
+            className="rounded-lg bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Submit
           </button>
         </div>
