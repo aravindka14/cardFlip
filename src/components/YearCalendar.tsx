@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import {
@@ -11,20 +10,35 @@ import {
   isSameMonth,
 } from "date-fns";
 
-const YearCalendar = ({ holidays = [], year, setYear }) => {
+type Holiday = {
+  date: string;
+  holiday: string;
+  color: string;
+  holidayType: string;
+};
+
+const YearCalendar = ({
+  holidays = [],
+  year,
+  setYear,
+}: {
+  holidays: Holiday[];
+  year: string;
+  setYear: (year: number) => void;
+}) => {
   const presentDate = new Date();
   const formattedPresentDate = format(presentDate, "yyyy-MM-dd");
   console.log("present date", presentDate);
 
   console.log("holiday list", holidays);
 
-  const holidayMap = {};
-  holidays.forEach((h) => {
+  const holidayMap: Record<string, Holiday> = {};
+  holidays.forEach((h: Holiday) => {
     holidayMap[h.date] = h;
   });
 
-  const renderMonth = (monthIndex) => {
-    const currentDate = new Date(year, monthIndex);
+  const renderMonth = (monthIndex: number) => {
+    const currentDate = new Date(Number(year), monthIndex);
 
     const monthStart = startOfMonth(currentDate);
 
@@ -46,9 +60,12 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
         const isHoliday = !!holiday;
 
         days.push(
-          <div key={day} className="relative group text-xs h-9 flex items-center justify-center">
+          <div
+            key={formattedDate}
+            className="relative group text-xs h-9 flex items-center justify-center"
+          >
             <div
-              key={day}
+              key={formattedDate}
               className={`text-xs h-9 p-1 flex items-center justify-center min-w-[35px]
                 ${!isSameMonth(day, monthStart) && "invisible"}
                 ${isHoliday && `${holiday.color} rounded-full px-3 cursor-pointer`}
@@ -78,14 +95,14 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
       }
 
       rows.push(
-        <div key={day} className="grid grid-cols-7">
+        <div className="grid grid-cols-7">
           {days}
         </div>,
       );
     }
 
     return (
-      <div key={day} className="p-2 bg-white rounded shadow">
+      <div className="p-2 bg-white rounded shadow">
         <h3 className="font-semibold mb-4 text-end px-4">
           {format(currentDate, "MMMM")}
         </h3>
@@ -110,7 +127,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
     <div className="w-full">
       <div className="flex justify-center items-center mb-4 gap-2">
         <button
-          onClick={() => setYear(year - 1)}
+          onClick={() => setYear(Number(year) - 1)}
           className="px-3 py-1  rounded"
         >
           <BiSolidLeftArrow />
@@ -118,7 +135,7 @@ const YearCalendar = ({ holidays = [], year, setYear }) => {
 
         <h2 className="text-3xl font-semibold">{year}</h2>
 
-        <button onClick={() => setYear(year + 1)} className="px-3 py-1 rounded">
+        <button onClick={() => setYear(Number(year) + 1)} className="px-3 py-1 rounded">
           <BiSolidRightArrow />
         </button>
       </div>

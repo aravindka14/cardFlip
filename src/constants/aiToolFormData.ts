@@ -1,4 +1,12 @@
-export const aiToolsFormFields = [
+type FormField = {
+  name: string;
+  label: string;
+  type: string;
+  required: string;
+  placeholder?: string;
+};
+
+export const aiToolsFormFields: FormField[] = [
   {
     name: "title",
     label: "Title",

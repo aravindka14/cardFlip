@@ -1,4 +1,4 @@
-const PhotoCard = ({ title, url }) => {
+const PhotoCard = ({ title }: { title: string }) => {
   return (
     <div className="border min-h-[300px]   rounded-lg bg-gray-100 border-gray-200 flex flex-col items-center p-4 gap-10">
       <div className="min-h-18">
@@ -12,7 +12,7 @@ const PhotoCard = ({ title, url }) => {
         alt={title}
         onError={(e) => {
           e.preventDefault();
-          e.target.src =
+          e.currentTarget.src =
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGZjYKPjVrCS_uKmuUXIkYNXPA3x0q_Y-hYQ&s";
         }}
       />

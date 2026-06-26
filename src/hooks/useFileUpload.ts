@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 
+type AllowedType  = "image/png" | "image/jpeg" | "image/jpg" | "image/svg+xml" | "image/gif";
+
+type UseFileUploadProps = { allowedTypes?:AllowedType[], maxSize?:number }
+
 const useFileUpload = ({
   allowedTypes = [
     "image/png",
@@ -9,18 +13,18 @@ const useFileUpload = ({
     "image/gif",
   ],
   maxSize = 10 * 1024 * 1024,
-} = {}) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [previewUrl, setPreviewUrl] = useState([]);
+} : UseFileUploadProps = {}) => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [previewUrl, setPreviewUrl] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const selectFile = (e) => {
+  const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isMultiple = e.target.multiple;
-    const files = Array.from(e.target.files);
-    const validFiles = [];
-    const invalidFiles = [];
+    const files = Array.from(e.target.files || []);
+    const validFiles: File[] = [];
+    const invalidFiles: File[] = [];
     files.forEach((file) => {
-      const isValidType = allowedTypes.includes(file.type);
+      const isValidType = (allowedTypes as string[]).includes(file.type);
       const isValidSize = file.size <= maxSize;
       if (isValidType && isValidSize) {
         validFiles.push(file);
@@ -32,7 +36,7 @@ const useFileUpload = ({
       alert("Some files were rejected. Check type or size limits.");
     }
     if (validFiles.length === 0) {
-      e.target.value = null;
+      e.target.value = "";
       return;
     }
     const urls = validFiles.map((file) => URL.createObjectURL(file));
@@ -45,10 +49,10 @@ const useFileUpload = ({
       setPreviewUrl(urls);
       setSelectedIndex(0);
     }
-    e.target.value = null;
+    e.target.value = "";
   };
 
-  const removeFile = (index) => {
+  const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
     setPreviewUrl((prev) => prev.filter((_, i) => i !== index));
     setSelectedIndex((prev) => {
@@ -58,7 +62,7 @@ const useFileUpload = ({
     });
   };
 
-  const previewFile = (index) => setSelectedIndex(index);
+  const previewFile = (index: number) => setSelectedIndex(index);
 
   return {
     selectFile,

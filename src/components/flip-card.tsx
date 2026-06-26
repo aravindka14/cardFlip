@@ -1,4 +1,4 @@
-import { cn } from "../utils/utils";
+import { cn } from "../utils/utils.js";
 
 interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {
   subTitle: string;

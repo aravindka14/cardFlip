@@ -1,7 +1,7 @@
-export const convertToISO = (dateStr) => {
+export const convertToISO = (dateStr?: string): null | string => {
   if (!dateStr) return null;
   const normalized = String(dateStr).split("T")[0];
-  const [year, month, day] = normalized.split("-");
+  const [year, month, day] = (normalized || "").split("-");
   if (year && month && day) {
     return `${day}-${month}-${year}`;
   }

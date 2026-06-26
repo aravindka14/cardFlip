@@ -1,4 +1,16 @@
-export const data = [
+type dataField = {
+  id: number;
+  title: string;
+  subtitle: string;
+  tags: string[];
+  description: string;
+  detailedDescription: string;
+  features: string[];
+  footer: string[];
+}
+
+
+export const data: dataField[] = [
   {
     id: 1,
     title: "Claude Code",

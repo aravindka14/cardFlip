@@ -27,7 +27,7 @@ interceptor.interceptors.request.use(
 interceptor.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { response, request, message } = error;
+    const { response } = error;
 
     if (response) {
       const { status, data } = response;

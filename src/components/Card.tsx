@@ -1,4 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+interface CardProps {
+  title: string;
+  subTitle: string;
+  tags: string[];
+  description: string;
+  features: string[];
+  footer: string[];
+  detailedDescription: string;
+}
 
 const Card = ({
   title,
@@ -8,9 +18,9 @@ const Card = ({
   features,
   footer,
   detailedDescription
-}) => {
+}: CardProps) => {
 
-  const [flipCard, setFlipCard] = useState(false)
+  const [flipCard, setFlipCard] = useState<boolean>(false)
   return (
     <>
       {!flipCard? (

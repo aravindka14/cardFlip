@@ -1,9 +1,12 @@
-import React from "react";
-import InputField from "./Base/inputField/InputField";
-import { aiToolsFormFields } from "../constants/aiToolFormData";
-import { Controller, useForm } from "react-hook-form";
+import { aiToolsFormFields } from "../constants/aiToolFormData.js";
+import { Controller, type UseFormReturn } from "react-hook-form";
+import InputField from "./Base/inputField/InputField.js";
 
-const AiToolForm = ({ methods }) => {
+interface AiToolFormProps {
+  methods: UseFormReturn<any>;
+}
+
+const AiToolForm = ({ methods }: AiToolFormProps) => {
   const { register, control, formState } = methods;
   const { errors } = formState;
   return (
@@ -37,7 +40,7 @@ const AiToolForm = ({ methods }) => {
             {...register(field.name, {
               required: field.required ? field.required : false,
             })}
-            error={errors[field.name]?.message}
+            error={errors[field.name]?.message?.toString()}
           />
         );
       })}

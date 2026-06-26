@@ -1,5 +1,12 @@
 import { create } from "zustand";
 
+type HolidayListProps ={
+  date:string;
+  holiday:string;
+  color:string;
+  holidayType:string;
+}
+
 const useHolidayList = create((set) => ({
   holidayList: [
     {
@@ -22,9 +29,9 @@ const useHolidayList = create((set) => ({
     }
   ],
 
-  setHolidayList: (data) => set({ holidayList: data }),
-  deleteHolidayList: (date) =>
-    set((state) => ({
+  setHolidayList: (data: HolidayListProps[]) => set({ holidayList: data }),
+  deleteHolidayList: (date: string) =>
+    set((state: { holidayList: HolidayListProps[] }) => ({
       holidayList: state.holidayList.filter((holiday) => holiday.date !== date),
     })),
 }));

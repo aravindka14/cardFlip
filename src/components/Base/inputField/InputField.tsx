@@ -1,22 +1,43 @@
 import React, { useState } from "react";
-import FontIcon from "../icons/FontIcon";
+import FontIcon from "../icons/FontIcon.js";
 import CreatableSelect from "react-select/creatable";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
+interface InputFieldProps {
+  name?: string;
+  label?: string;
+  type?: string;
+  placeholder?: string;
+  value?: any;
+  error?: string;
+  options?: Array<{ value: string; label: string; color?: string }>;
+  disabled?: boolean;
+  multiple?: boolean;
+  onChange?: (...event: any[]) => void;
+  onRemoveFile?: (index: number) => void;
+  selectedFile?: FileList | null;
+  previewFile?: (index: number) => void;
+  required?: boolean;
+  selectedIndex?: number;
+  icon?: React.ElementType;
+  accept?: string[];
+  className?: string;
+  text?: string;
+  onBlur?: (e: any) => void;
+}
+
 const customStyles = {
-  control: (provided, state) => ({
+  control: (provided: any, state: any) => ({
     ...provided,
     minHeight: "48px",
     borderRadius: "0.75rem",
     backgroundColor: "rgba(248, 250, 252, 0.5)",
-    borderColor: state.isFocused 
-      ? "#6366f1" 
-      : state.selectProps.error 
-        ? "#f87171" 
+    borderColor: state.isFocused
+      ? "#6366f1"
+      : state.selectProps.error
+        ? "#f87171"
         : "#e2e8f0",
-    boxShadow: state.isFocused 
-      ? "0 0 0 2px rgba(99, 102, 241, 0.2)" 
-      : "none",
+    boxShadow: state.isFocused ? "0 0 0 2px rgba(99, 102, 241, 0.2)" : "none",
     padding: "2px 6px",
     fontSize: "14px",
     transition: "all 0.3s ease",
@@ -25,41 +46,41 @@ const customStyles = {
     },
   }),
 
-  valueContainer: (provided) => ({
+  valueContainer: (provided: any) => ({
     ...provided,
     padding: "2px 6px",
   }),
 
-  placeholder: (provided) => ({
+  placeholder: (provided: any) => ({
     ...provided,
     color: "#9ca3af",
   }),
 
-  multiValue: (provided) => ({
+  multiValue: (provided: any) => ({
     ...provided,
     borderRadius: "6px",
     backgroundColor: "#eef2ff",
   }),
 
-  multiValueLabel: (provided) => ({
+  multiValueLabel: (provided: any) => ({
     ...provided,
     color: "#4338ca",
     fontWeight: 500,
   }),
 
-  multiValueRemove: (provided) => ({
+  multiValueRemove: (provided: any) => ({
     ...provided,
     cursor: "pointer",
   }),
 
-  menu: (provided) => ({
+  menu: (provided: any) => ({
     ...provided,
     borderRadius: "0.75rem",
     overflow: "hidden",
     zIndex: 9999,
   }),
 
-  option: (provided, state) => ({
+  option: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: state.isFocused ? "#f3f4f6" : "#fff",
     color: "#111827",
@@ -70,7 +91,7 @@ const customStyles = {
 const BASIC_INPUT_CLS = `w-full rounded-xl border bg-slate-50/50 mt-1 text-sm text-slate-800 transition-all duration-300 
 placeholder:text-slate-400/80 focus:outline-none focus:ring-2`;
 
-const InputField = React.forwardRef(
+const InputField = React.forwardRef<any, InputFieldProps>(
   (
     {
       name,
@@ -89,16 +110,20 @@ const InputField = React.forwardRef(
       required,
       selectedIndex,
       icon: Icon,
+      accept,
       ...rest
-    },
+    }: InputFieldProps,
     ref,
-  ) => {
+  ): React.JSX.Element => {
     const [open, setOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [multiInputValue, setMultiInputValue] = useState("");
     const selected = options.find((opt) => opt.value === value);
-    const acceptString = rest?.accept
-      ?.map((type) => `.${type.split("/")[1].toLocaleUpperCase()}`)
+    const acceptString = accept
+      ?.map((type) => {
+        const subType = type.split("/")[1];
+        return subType ? `.${subType.toLocaleUpperCase()}` : type;
+      })
       .join(", ");
 
     return (
@@ -136,7 +161,7 @@ const InputField = React.forwardRef(
                     <div
                       key={opt.value}
                       onClick={() => {
-                        onChange(opt.value);
+                        onChange?.(opt.value);
                         setOpen(false);
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 rounded-lg"
@@ -163,7 +188,7 @@ const InputField = React.forwardRef(
                   name={name}
                   onChange={onChange}
                   multiple={multiple}
-                  accept={rest.accept}
+                  accept={accept?.join(",")}
                   ref={ref}
                   disabled={disabled}
                   className="hidden"
@@ -181,7 +206,7 @@ const InputField = React.forwardRef(
                     <button
                       type="button"
                       className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline focus:outline-none focus:underline"
-                      onClick={() => document.getElementById(name).click()}
+                      onClick={() => document.getElementById(name ?? "")?.click()}
                     >
                       Click to upload
                     </button>
@@ -195,7 +220,7 @@ const InputField = React.forwardRef(
                   Array.from(selectedFile).map((file, index) => (
                     <div
                       onClick={() => {
-                        previewFile(index);
+                        previewFile?.(index);
                       }}
                       key={index}
                       className={`flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm
@@ -220,12 +245,12 @@ const InputField = React.forwardRef(
 
                         <div className="truncate">
                           <p className="text-sm font-medium text-gray-700 truncate">
-                            {file.name}
+                            {file?.name}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {file.size / 1024 / 1024 < 1
-                              ? (file.size / 1024).toFixed(2) + " KB"
-                              : (file.size / (1024 * 1024)).toFixed(2) + " MB"}
+                            {file?.size / 1024 / 1024 < 1
+                              ? (file?.size / 1024).toFixed(2) + " KB"
+                              : (file?.size / (1024 * 1024)).toFixed(2) + " MB"}
                           </p>
                         </div>
                       </div>
@@ -233,7 +258,7 @@ const InputField = React.forwardRef(
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onRemoveFile(index);
+                          onRemoveFile?.(index);
                         }}
                         className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors focus:outline-none"
                       >
@@ -254,7 +279,7 @@ const InputField = React.forwardRef(
                 type="checkbox"
                 name={name}
                 checked={!!value}
-                onChange={() => onChange(!value)}
+                onChange={() => onChange?.(!value)}
                 disabled={disabled}
                 className="hidden"
               />
@@ -295,28 +320,32 @@ const InputField = React.forwardRef(
                 isMulti
                 name={name}
                 ref={ref}
-                value={(value || []).map((v) => ({ label: v, value: v }))}
+                value={(value || []).map((v: any) => ({ label: v, value: v }))}
                 onChange={(newOptions) => {
-                  onChange((newOptions || []).map((opt) => opt.value));
+                  const options =
+                    (newOptions as { value: string; label: string }[]) ?? [];
+                  onChange?.(options.map((opt) => opt.value));
                 }}
                 onBlur={rest.onBlur}
                 inputValue={multiInputValue}
                 onInputChange={(newVal) => setMultiInputValue(newVal)}
-                onKeyDown={(e) => {
+                onKeyDown={(e: KeyboardEvent) => {
                   if (!multiInputValue) return;
                   if (e.key === "Enter" || e.key === "Tab") {
                     e.preventDefault();
                     // prevent duplicate tags
                     const exists = (value || []).includes(multiInputValue);
                     if (!exists) {
-                      onChange(value ? [...value, multiInputValue] : [multiInputValue]);
+                      onChange?.(
+                        value ? [...value, multiInputValue] : [multiInputValue],
+                      );
                     }
                     setMultiInputValue("");
                   }
                 }}
                 placeholder={placeholder}
                 styles={customStyles}
-                error={error}
+                {...({ error } as any)}
                 components={{
                   DropdownIndicator: null,
                   IndicatorSeparator: null,
@@ -335,7 +364,13 @@ const InputField = React.forwardRef(
               <input
                 name={name}
                 ref={ref}
-                type={type === "password" ? (showPassword ? "text" : "password") : type}
+                type={
+                  type === "password"
+                    ? showPassword
+                      ? "text"
+                      : "password"
+                    : type
+                }
                 placeholder={placeholder}
                 onChange={onChange}
                 required={required}

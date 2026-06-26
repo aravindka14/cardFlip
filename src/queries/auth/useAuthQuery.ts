@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { interceptor } from "../interceptor";
+import interceptor from "../interceptor.js";
 
 export const useAuthQuery = () => {
   const login = useMutation({
