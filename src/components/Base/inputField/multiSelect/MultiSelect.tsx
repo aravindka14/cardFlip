@@ -1,8 +1,7 @@
-import React from "react";
 import CreatableSelect from "react-select/creatable";
 
 const customStyles = {
-  control: (provided, state) => ({
+  control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
     minHeight: "42px",
     borderRadius: "0.5rem",
@@ -15,41 +14,41 @@ const customStyles = {
     },
   }),
 
-  valueContainer: (provided) => ({
+  valueContainer: (provided: any) => ({
     ...provided,
     padding: "2px 6px",
   }),
 
-  placeholder: (provided) => ({
+  placeholder: (provided: any) => ({
     ...provided,
     color: "#9ca3af",
   }),
 
-  multiValue: (provided) => ({
+  multiValue: (provided: any) => ({
     ...provided,
     borderRadius: "6px",
     backgroundColor: "#eef2ff",
   }),
 
-  multiValueLabel: (provided) => ({
+  multiValueLabel: (provided: any) => ({
     ...provided,
     color: "#4338ca",
     fontWeight: 500,
   }),
 
-  multiValueRemove: (provided) => ({
+  multiValueRemove: (provided: any) => ({
     ...provided,
     cursor: "pointer",
   }),
 
-  menu: (provided) => ({
+  menu: (provided: any) => ({
     ...provided,
     borderRadius: "0.5rem",
     overflow: "hidden",
     zIndex: 9999,
   }),
 
-  option: (provided, state) => ({
+  option: (provided: any, state: { isFocused: any }) => ({
     ...provided,
     backgroundColor: state.isFocused ? "#f3f4f6" : "#fff",
     color: "#111827",
@@ -57,7 +56,18 @@ const customStyles = {
   }),
 };
 
-const MultiSelect = ({ value, onChange, placeholder }) => {
+type OptionType = {
+  value: string;
+  label: string;
+};
+
+interface MultiSelectProps {
+  value: OptionType[];
+  onChange: (value: readonly OptionType[]) => void;
+  placeholder: string;
+}
+
+const MultiSelect = ({ value, onChange, placeholder }: MultiSelectProps) => {
   return (
     <CreatableSelect
       isMulti

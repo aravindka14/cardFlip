@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
-  getPaginationRowModel,
+  // getPaginationRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import type { Dispatch, SetStateAction } from "react";
+
+interface TableProps {
+  data?: any[];
+  columns: any[];
+  searchItem?: string;
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  totalPages: number;
+}
 
 const Table = ({
   data = [],
@@ -14,7 +23,7 @@ const Table = ({
   page,
   setPage,
   totalPages,
-}) => {
+}: TableProps) => {
   const table = useReactTable({
     data,
     columns,
@@ -50,7 +59,7 @@ const Table = ({
         <tbody className="divide-y divide-gray-100">
           {table.getRowModel()?.rows?.length === 0 ? (
             <tr>
-              <td colSpan="100%" className="text-center py-10 text-gray-400">
+              <td colSpan={100} className="text-center py-10 text-gray-400">
                 No data available
               </td>
             </tr>

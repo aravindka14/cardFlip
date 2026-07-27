@@ -1,5 +1,5 @@
-import React from "react";
-import logo from "../../assets/hero.png";
+// import logo from "../../assets/hero.png";
+import logo from "../../assets/hero.png"
 import { useNavigate, useLocation } from "react-router-dom";
 
 const SideBar = () => {
@@ -58,7 +58,7 @@ const SideBar = () => {
                     : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 }`}
               >
-                {item.icon && <span className="text-lg">{item.icon}</span>}
+                {/* {item.icon && <span className="text-lg">{item.icon}</span>} */}
 
                 <span>{`${item.name}`}</span>
               </button>

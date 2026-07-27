@@ -2,6 +2,15 @@ import React from "react";
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 
+interface SliderProps {
+  children: React.ReactNode;
+  showSlider: boolean;
+  setShowSlider: (showSlider: boolean) => void;
+  headline: string;
+  size?: "small" | "medium" | "large";
+  onClose?: () => void;
+}
+
 const Slider = ({
   children,
   showSlider,
@@ -9,7 +18,7 @@ const Slider = ({
   headline,
   size = "small",
   onClose,
-}) => {
+}: SliderProps) => {
   const handleClose = () => {
     onClose?.();
     setShowSlider(false);
@@ -23,13 +32,10 @@ const Slider = ({
 
   return (
     <div
-      className={clsx(
-        "fixed inset-0 z-50 transition-all duration-300",
-        {
-          "pointer-events-auto bg-black/40": showSlider,
-          "pointer-events-none bg-black/0": !showSlider,
-        }
-      )}
+      className={clsx("fixed inset-0 z-50 transition-all duration-300", {
+        "pointer-events-auto bg-black/40": showSlider,
+        "pointer-events-none bg-black/0": !showSlider,
+      })}
     >
       {/* Backdrop */}
       <div className="absolute inset-0" onClick={handleClose} />
@@ -42,7 +48,7 @@ const Slider = ({
           {
             "translate-x-0": showSlider,
             "translate-x-full": !showSlider,
-          }
+          },
         )}
       >
         {/* Header */}
@@ -58,9 +64,7 @@ const Slider = ({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-5">
-          {children}
-        </div>
+        <div className="flex-1 overflow-y-auto p-5">{children}</div>
       </div>
     </div>
   );

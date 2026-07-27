@@ -1,7 +1,13 @@
-import React, { Children } from "react";
-import { IoClose } from "react-icons/io5";
+interface PopupProps {
+  isOpen: boolean,
+  onClose: () => void,
+  onSubmit: () => void,
+  title: string,
+  children: React.ReactNode,
+  size?: "sm" | "md" | "lg" | "xl" | "xxl" | "full",  
+}
 
-const Popup = ({ isOpen, onClose, onSubmit, title, children, size = "md" }) => {
+const Popup = ({ isOpen, onClose, onSubmit, title, children, size = "md" }: PopupProps) => {
   if (!isOpen) return null;
   const sizeClasses = {
     sm: "w-[300px]",
